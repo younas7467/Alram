@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#10131c">
+    <meta name="description" content="A simple, reliable alarm clock.">
+    <title>Alram — Alarm Clock</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Alram home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span>alram</span>
+        </a>
+        <button class="icon-button" id="notifications-button" type="button">
+          <span aria-hidden="true">♧</span>
+          <span id="notifications-label">Enable notifications</span>
+        </button>
+      </header>
+
+      <section class="clock-panel" aria-labelledby="clock-time">
+        <div class="clock-copy">
+          <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> YOUR LOCAL TIME</p>
+          <h1 id="clock-time" class="clock-time" aria-live="off">--:--:--</h1>
+          <p id="clock-date" class="clock-date">Loading date…</p>
+        </div>
+        <div class="clock-side">
+          <div class="clock-glyph" aria-hidden="true">
+            <span class="glyph-ring"></span>
+            <span class="glyph-hand glyph-hand-hour"></span>
+            <span class="glyph-hand glyph-hand-minute"></span>
+            <span class="glyph-center"></span>
+          </div>
+          <div class="monitor-status">
+            <span class="status-dot" id="status-dot"></span>
+            <span id="monitor-status">Alarms are active</span>
+          </div>
+          <div class="monitor-controls">
+            <button class="text-button" id="start-monitoring" type="button" hidden>Start alarms</button>
+            <button class="text-button" id="stop-monitoring" type="button">Pause alarms</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="content-grid">
+        <section class="alarms-panel panel" aria-labelledby="alarms-heading">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">YOUR SCHEDULE</p>
+              <h2 id="alarms-heading">Alarms <span id="alarm-count" class="count-badge">0</span></h2>
+            </div>
+            <span class="section-icon" aria-hidden="true">◷</span>
+          </div>
+
+          <div id="alarm-list" class="alarm-list" aria-live="polite"></div>
+          <p class="empty-state" id="empty-state">No alarms yet. Add one to get started.</p>
+
+          <form id="alarm-form" class="add-alarm-form">
+            <label class="eyebrow" for="alarm-time">ADD AN ALARM</label>
+            <div class="form-row">
+              <input id="alarm-time" name="time" type="time" required aria-label="Alarm time">
+              <button class="add-button" type="submit"><span aria-hidden="true">＋</span> Add alarm</button>
+            </div>
+          </form>
+        </section>
+
+        <aside class="side-column">
+          <section class="next-panel panel" aria-labelledby="next-heading">
+            <p class="eyebrow">COMING UP</p>
+            <h2 id="next-heading">Next alarm</h2>
+            <p class="next-time" id="next-time">—:—</p>
+            <p class="next-caption" id="next-caption">Add an alarm to see what’s next.</p>
+            <div class="next-rule"></div>
+            <p class="small-note">Alarms ring once per scheduled day. Keep this page open for reliable alarms.</p>
+          </section>
+
+          <section class="tips-panel" aria-label="Alarm controls">
+            <span class="tips-icon" aria-hidden="true">♫</span>
+            <p><strong>Ready when you are.</strong><br>Alarm sound plays on this device. Snooze gives you 5 more minutes.</p>
+          </section>
+        </aside>
+      </div>
+
+      <section class="ringing-panel" id="ringing-panel" aria-live="assertive" hidden>
+        <div class="ringing-copy">
+          <span class="ringing-icon" aria-hidden="true">◉</span>
+          <div>
+            <p class="eyebrow">ALARM IS RINGING</p>
+            <h2 id="ringing-time">It’s time to wake up</h2>
+          </div>
+        </div>
+        <div class="ringing-controls">
+          <button class="snooze-button" id="snooze-button" type="button">Snooze 5 min</button>
+          <button class="stop-button" id="stop-button" type="button">Stop alarm</button>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>ALRAM <span aria-hidden="true">·</span> SIMPLE TIME, BETTER MORNINGS</span>
+        <span>Times shown in your local timezone</span>
+      </footer>
+    </main>
+
+    <div id="announcement" class="visually-hidden" role="status" aria-live="polite"></div>
+  </body>
+</html>
