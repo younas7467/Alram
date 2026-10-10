@@ -24,6 +24,9 @@ const stopButton = document.querySelector("#stop-button");
 const notificationsButton = document.querySelector("#notifications-button");
 const notificationsLabel = document.querySelector("#notifications-label");
 const announcement = document.querySelector("#announcement");
+const nativeAlarm = window.Capacitor?.getPlatform?.() === "android"
+  ? window.Capacitor.registerPlugin("NativeAlarm")
+  : null;
 
 const timeFormatter = new Intl.DateTimeFormat(undefined, {
   hour: "2-digit",
@@ -73,6 +76,7 @@ function loadAlarms() {
 
 function saveAlarms() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(alarms));
+  syncNativeAlarms();
 }
 
 function formatAlarmTime(value) {
@@ -182,7 +186,7 @@ function updateClock() {
   const now = new Date();
   clockTime.textContent = clockFormatter.format(now);
   clockDate.textContent = dateFormatter.format(now);
-  checkAlarms(now);
+  if (!nativeAlarm) checkAlarms(now);
 }
 
 function checkAlarms(now) {
@@ -212,16 +216,24 @@ function checkAlarms(now) {
 }
 
 function beginRinging(alarm, isSnooze) {
+  if (ringingAlarm?.id === alarm.id) return;
   ringingAlarm = alarm;
   ringingPanel.hidden = false;
   ringingTime.textContent = isSnooze ? "Snooze is over" : `Alarm · ${formatAlarmTime(alarm.time)}`;
   announcement.textContent = isSnooze ? "Your snooze is over." : `Alarm ringing for ${formatAlarmTime(alarm.time)}.`;
+  if (nativeAlarm) return;
   startSound();
   showNotification(isSnooze ? "Snooze is over" : "Alarm", isSnooze ? "Time to get up." : `Your ${formatAlarmTime(alarm.time)} alarm is ringing.`);
 }
 
-function stopRinging(message) {
+function stopRinging(message, dismissNative = true) {
   if (!ringingAlarm) return;
+  if (nativeAlarm && dismissNative) {
+    nativeAlarm.dismiss().catch((error) => {
+      console.error("Native alarm could not be dismissed:", error);
+      announcement.textContent = "The alarm could not be dismissed. Try again.";
+    });
+  }
   ringingAlarm = null;
   snoozeUntil = null;
   ringingPanel.hidden = true;
@@ -231,7 +243,14 @@ function stopRinging(message) {
 
 function snoozeAlarm() {
   if (!ringingAlarm) return;
-  snoozeUntil = { timestamp: Date.now() + SNOOZE_DURATION, alarmId: ringingAlarm.id };
+  if (nativeAlarm) {
+    nativeAlarm.snooze().catch((error) => {
+      console.error("Native alarm could not be snoozed:", error);
+      announcement.textContent = "The alarm could not be snoozed. Try again.";
+    });
+  } else {
+    snoozeUntil = { timestamp: Date.now() + SNOOZE_DURATION, alarmId: ringingAlarm.id };
+  }
   ringingAlarm = null;
   ringingPanel.hidden = true;
   stopSound();
@@ -316,6 +335,11 @@ function stopSound() {
 }
 
 function updateNotificationLabel() {
+  if (nativeAlarm) {
+    notificationsLabel.textContent = "Enable alarm permissions";
+    notificationsButton.disabled = false;
+    return;
+  }
   if (!("Notification" in window)) {
     notificationsLabel.textContent = "Notifications unavailable";
     notificationsButton.disabled = true;
@@ -338,6 +362,80 @@ async function requestNotificationPermission() {
     await Notification.requestPermission();
   }
   updateNotificationLabel();
+}
+
+function updateNativePermissionStatus(status) {
+  if (!nativeAlarm || !status) return;
+  if (status.exactAlarmAllowed && status.notificationsAllowed && status.fullScreenAllowed) {
+    notificationsLabel.textContent = "Alarm permissions enabled";
+  } else if (!status.notificationsAllowed) {
+    notificationsLabel.textContent = "Enable alarm notifications";
+  } else if (!status.exactAlarmAllowed) {
+    notificationsLabel.textContent = "Allow exact alarms";
+  } else {
+    notificationsLabel.textContent = "Allow full-screen alarms";
+  }
+  const reliabilityNote = document.querySelector("#alarm-reliability-note");
+  if (!reliabilityNote) return;
+  if (!status.exactAlarmAllowed) {
+    reliabilityNote.textContent = "Android exact-alarm access is off. Tap “Enable alarm permissions” and allow Alram to set alarms & reminders; without it Android may deliver alarms late.";
+  } else if (!status.notificationsAllowed) {
+    reliabilityNote.textContent = "Enable Alram notifications in Android settings to see the alarm controls on the lock screen.";
+  } else if (!status.fullScreenAllowed) {
+    reliabilityNote.textContent = "Allow Alram full-screen notifications in Android settings if you want the alarm screen to appear over the lock screen.";
+  } else {
+    reliabilityNote.textContent = "Android schedules alarms with its native alarm service. Battery restrictions and device-specific behavior can still affect delivery.";
+  }
+}
+
+function syncNativeAlarms() {
+  if (!nativeAlarm) return;
+  nativeAlarm.setAlarms({ alarms, monitoring }).then((status) => {
+    updateNativePermissionStatus({ ...status, notificationsAllowed: true, fullScreenAllowed: true });
+    return nativeAlarm.getStatus();
+  }).then(updateNativePermissionStatus).catch((error) => {
+    console.error("Native alarms could not be scheduled:", error);
+    announcement.textContent = "Native alarms could not be scheduled. Check alarm permissions and try again.";
+  });
+}
+
+function handleNativeAlarmFired(payload) {
+  if (!nativeAlarm || !payload?.id) return;
+  const alarm = alarms.find((item) => item.id === payload.id) || {
+    id: payload.id,
+    time: /^\d{2}:\d{2}$/.test(payload.time) ? payload.time : timeFormatter.format(new Date()),
+  };
+  if (!payload.isSnooze && alarms.some((item) => item.id === payload.id)) {
+    const today = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}-${String(new Date().getDate()).padStart(2, "0")}`;
+    if (alarm.lastTriggeredDate !== today) {
+      updateAlarm(alarm.id, (item) => ({ ...item, lastTriggeredDate: today }));
+    }
+  }
+  beginRinging(alarm, Boolean(payload.isSnooze));
+}
+
+function connectNativeAlarms() {
+  if (!nativeAlarm) return;
+  document.querySelector("#alarm-reliability-note").textContent =
+    "Android schedules alarms natively. Grant alarm permissions for the best available delivery and lock-screen controls.";
+  nativeAlarm.addListener("alarmFired", handleNativeAlarmFired).catch((error) => {
+    console.error("Native alarm event listener could not be registered:", error);
+  });
+  nativeAlarm.addListener("alarmEnded", ({ result }) => {
+    const message = result === "snoozed" ? "Alarm snoozed for 5 minutes." : "Alarm stopped.";
+    stopRinging(message, false);
+  }).catch((error) => {
+    console.error("Native alarm completion listener could not be registered:", error);
+  });
+  nativeAlarm.getActiveAlarm().then((alarm) => {
+    if (alarm.active) handleNativeAlarmFired(alarm);
+  }).catch((error) => {
+    console.error("Active native alarm state could not be read:", error);
+  });
+  nativeAlarm.getStatus().then(updateNativePermissionStatus).catch((error) => {
+    console.error("Native alarm permissions could not be read:", error);
+  });
+  syncNativeAlarms();
 }
 
 function showNotification(title, body) {
@@ -382,6 +480,7 @@ startMonitoringButton.addEventListener("click", async () => {
   monitoring = true;
   localStorage.setItem(MONITORING_KEY, "true");
   updateMonitoringState();
+  syncNativeAlarms();
   if (audioContext?.state === "suspended") await audioContext.resume();
   announcement.textContent = "Alarms started.";
 });
@@ -391,15 +490,19 @@ stopMonitoringButton.addEventListener("click", () => {
   localStorage.setItem(MONITORING_KEY, "false");
   stopRinging("Alarm monitoring paused.");
   updateMonitoringState();
+  syncNativeAlarms();
   announcement.textContent = "Alarms paused.";
 });
 
 stopButton.addEventListener("click", () => stopRinging("Alarm stopped."));
 snoozeButton.addEventListener("click", snoozeAlarm);
 notificationsButton.addEventListener("click", () => {
-  requestNotificationPermission().catch((error) => {
+  const permissionRequest = nativeAlarm
+    ? nativeAlarm.requestPermissions().then(updateNativePermissionStatus)
+    : requestNotificationPermission();
+  permissionRequest.catch((error) => {
     console.error("Notification permission request failed:", error);
-    announcement.textContent = "Could not request notification permission.";
+    announcement.textContent = "Could not request alarm permissions. Check Android settings and try again.";
   });
 });
 document.addEventListener("pointerdown", () => {
@@ -412,5 +515,6 @@ document.addEventListener("pointerdown", () => {
 renderAlarms();
 updateMonitoringState();
 updateNotificationLabel();
+connectNativeAlarms();
 updateClock();
 window.setInterval(updateClock, 250);
