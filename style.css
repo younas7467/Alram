@@ -430,3 +430,26 @@ h2 { color: var(--forest); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* Replace light green accents with white */
+:root {
+  --gold: #ffffff;
+  --gold-light: #ffffff;
+}
+
+.brand-copy,
+.brand-copy strong,
+.brand-copy small,
+h1, h2, h3,
+.eyebrow,
+a:not(.button) {
+  color: #ffffff;
+}
+
+.brand-mark {
+  border-color: #ffffff;
+}
+
+.brand-mark svg {
+  stroke: #ffffff;
+}
