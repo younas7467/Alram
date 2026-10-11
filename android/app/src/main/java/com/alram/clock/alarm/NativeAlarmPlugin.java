@@ -125,9 +125,11 @@ public final class NativeAlarmPlugin extends Plugin {
         Uri selectedUri = uri == null
             ? RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
             : uri;
-        selection.put("title", selectedUri == null
-            ? "System alarm"
-            : RingtoneManager.getRingtoneTitle(getContext(), selectedUri));
+        Ringtone selectedRingtone = selectedUri == null
+            ? null
+            : RingtoneManager.getRingtone(getContext(), selectedUri);
+        String title = selectedRingtone == null ? null : selectedRingtone.getTitle(getContext());
+        selection.put("title", title == null || title.trim().isEmpty() ? "System alarm" : title);
         call.resolve(selection);
     }
 
