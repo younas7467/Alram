@@ -480,3 +480,40 @@ textarea {
   background: #a6d9ad;
   color: #17231b;
 }
+
+/* Fix unreadable text on dark theme */
+body,
+main,
+section,
+article,
+.card,
+.surface,
+.home-grid {
+  color: #f1f5f2;
+}
+
+h1, h2, h3, h4,
+p, label, small,
+.eyebrow,
+.muted-copy,
+.date-card,
+.next-alarm-content {
+  color: #e7eee9;
+}
+
+h1, h2, h3 {
+  color: #f6faf7;
+}
+
+.muted,
+.muted-copy {
+  color: #b9c8bf;
+}
+
+.eyebrow {
+  color: #b9e8c2;
+}
+
+a:not(.button) {
+  color: #b9e8c2;
+}
