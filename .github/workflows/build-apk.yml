@@ -28,44 +28,17 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Configure Android SDK
-        shell: bash
-        run: |
-          SDK_ROOT="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}"
-          if [[ -z "$SDK_ROOT" || ! -d "$SDK_ROOT" ]]; then
-            echo "The runner did not provide an existing Android SDK through ANDROID_HOME or ANDROID_SDK_ROOT." >&2
-            exit 1
-          fi
-          SDK_ROOT="$(realpath "$SDK_ROOT")"
-
-          SDKMANAGER="$SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
-          if [[ ! -x "$SDKMANAGER" ]]; then
-            SDKMANAGER="$(find "$SDK_ROOT/cmdline-tools" -type f -name sdkmanager -print 2>/dev/null | sort -V | tail -n 1 || true)"
-          fi
-          if [[ -z "$SDKMANAGER" || ! -f "$SDKMANAGER" ]]; then
-            echo "No Android sdkmanager was found in the runner's existing SDK at $SDK_ROOT." >&2
-            exit 1
-          fi
-          SDKMANAGER_DIR="$(dirname "$(realpath "$SDKMANAGER")")"
-
-          COMPILE_SDK="$(awk '$1 == "compileSdkVersion" && $2 == "=" { print $3; exit }' android/variables.gradle)"
-          if [[ ! "$COMPILE_SDK" =~ ^[0-9]+$ ]]; then
-            echo "Could not determine compileSdkVersion from android/variables.gradle." >&2
-            exit 1
-          fi
-          BUILD_TOOLS_VERSION="${COMPILE_SDK}.0.0"
-
-          echo "ANDROID_HOME=$SDK_ROOT" >> "$GITHUB_ENV"
-          echo "ANDROID_SDK_ROOT=$SDK_ROOT" >> "$GITHUB_ENV"
-          echo "$SDKMANAGER_DIR" >> "$GITHUB_PATH"
-          echo "$SDK_ROOT/platform-tools" >> "$GITHUB_PATH"
-
-          sdkmanager --sdk_root="$SDK_ROOT" --version
-          sdkmanager --sdk_root="$SDK_ROOT" --licenses < <(yes)
-          sdkmanager --sdk_root="$SDK_ROOT" --install \
-            "platform-tools" \
-            "platforms;android-$COMPILE_SDK" \
-            "build-tools;$BUILD_TOOLS_VERSION"
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        env:
+          ANDROID_SDK_ROOT: ${{ runner.temp }}/android-sdk
+        with:
+          cmdline-tools-version: 12266719
+          accept-android-sdk-licenses: true
+          packages: |
+            platform-tools
+            platforms;android-35
+            build-tools;35.0.0
 
       - name: Install dependencies
         run: npm ci
