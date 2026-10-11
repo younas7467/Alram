@@ -478,3 +478,15 @@ h1, h2, h3,
 .eyebrow {
   color: #ffffff !important;
 }
+
+/* Restore original brand icon appearance */
+.brand-mark {
+  background: var(--forest) !important;
+  border: 1px solid rgb(196 154 74 / 48%) !important;
+  color: var(--forest) !important;
+}
+
+.brand-mark svg {
+  stroke: var(--gold-light) !important;
+  fill: none !important;
+}
