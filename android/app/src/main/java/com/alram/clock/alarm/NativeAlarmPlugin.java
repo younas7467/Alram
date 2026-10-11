@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 import androidx.activity.result.ActivityResult;
 import androidx.core.app.NotificationManagerCompat;
 import com.getcapacitor.JSArray;
@@ -17,7 +18,7 @@ import com.getcapacitor.annotation.ActivityCallback;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.annotation.Permission;
 import com.getcapacitor.annotation.PermissionCallback;
-import com.getcapacitor.annotation.PluginMethod;
+import com.getcapacitor.PluginMethod;
 import java.util.Locale;
 import org.json.JSONException;
 
@@ -44,8 +45,8 @@ public final class NativeAlarmPlugin extends Plugin {
             return;
         }
         try {
-            JSObject result = AlarmScheduler.updateAlarms(
-                getContext(), alarms, call.getBoolean("monitoring", true)
+            JSObject result = JSObject.fromJSONObject(
+                AlarmScheduler.updateAlarms(getContext(), alarms, call.getBoolean("monitoring", true))
             );
             call.resolve(result);
         } catch (JSONException | SecurityException error) {
@@ -80,7 +81,7 @@ public final class NativeAlarmPlugin extends Plugin {
 
     private void requestExactAlarmAccess(PluginCall call) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !canScheduleExactAlarms()) {
-            Intent intent = new Intent(AlarmManager.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+            Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
                 .setData(Uri.parse("package:" + getContext().getPackageName()));
             startActivityForResult(call, intent, "exactAlarmSettingsResult");
             return;
