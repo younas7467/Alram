@@ -46,7 +46,6 @@ jobs:
             echo "No Android sdkmanager was found in the runner's existing SDK at $SDK_ROOT." >&2
             exit 1
           fi
-          chmod +x "$SDKMANAGER"
           SDKMANAGER_DIR="$(dirname "$(realpath "$SDKMANAGER")")"
 
           COMPILE_SDK="$(awk '$1 == "compileSdkVersion" && $2 == "=" { print $3; exit }' android/variables.gradle)"
@@ -61,9 +60,9 @@ jobs:
           echo "$SDKMANAGER_DIR" >> "$GITHUB_PATH"
           echo "$SDK_ROOT/platform-tools" >> "$GITHUB_PATH"
 
-          "$SDKMANAGER" --sdk_root="$SDK_ROOT" --version
-          "$SDKMANAGER" --sdk_root="$SDK_ROOT" --licenses < <(yes)
-          "$SDKMANAGER" --sdk_root="$SDK_ROOT" --install \
+          sdkmanager --sdk_root="$SDK_ROOT" --version
+          sdkmanager --sdk_root="$SDK_ROOT" --licenses < <(yes)
+          sdkmanager --sdk_root="$SDK_ROOT" --install \
             "platform-tools" \
             "platforms;android-$COMPILE_SDK" \
             "build-tools;$BUILD_TOOLS_VERSION"
