@@ -453,3 +453,28 @@ a:not(.button) {
 .brand-mark svg {
   stroke: #ffffff;
 }
+
+/* FORCE WHITE TEXT */
+:root {
+  --gold: #ffffff !important;
+  --gold-light: #ffffff !important;
+}
+
+.brand-copy,
+.brand-copy strong,
+.brand-copy small,
+.brand-copy *,
+.brand-mark svg,
+.eyebrow,
+h1, h2, h3,
+.home-grid h2,
+.page-heading,
+.clock-art-crescent {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+.brand-copy small,
+.eyebrow {
+  color: #ffffff !important;
+}
