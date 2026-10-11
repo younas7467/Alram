@@ -10,7 +10,7 @@ const LOCALES = { en: "en-US", ur: "ur-PK", ar: "ar-SA", hi: "hi-IN" };
 const messages = {
   en: {
     language: "Language", mainNavigation: "Main navigation", navHome: "Home", navAlarms: "Alarms", navCalendar: "Calendar", navSounds: "Sounds", navSettings: "Settings",
-    homeEyebrow: "A QUIETER START TO YOUR DAY", welcome: "اللہ مجھے دیکھ رہا ہے", localTime: "YOUR LOCAL TIME", loading: "Loading…",
+    welcome: "اللہ مجھے دیکھ رہا ہے", localTime: "YOUR LOCAL TIME", loading: "Loading…",
     alarmsActive: "Alarms active", alarmsPaused: "Alarms paused", upNext: "UP NEXT", nextAlarm: "Next alarm", addAlarm: "Add alarm", newAlarm: "New alarm",
     today: "TODAY", moonNote: "A little time for reflection, whenever the day begins.", deviceNote: "Alarms use your device's native scheduler on Android. Delivery still depends on device settings.",
     yourRoutine: "YOUR ROUTINE", alarms: "Alarms", scheduledAlarms: "Scheduled alarms", noAlarms: "A fresh start", noAlarmsBody: "You don't have any alarms yet. Create one that works for you.", createFirst: "Create your first alarm",
@@ -56,7 +56,7 @@ const messages = {
   },
   ur: {
     language: "زبان", mainNavigation: "مرکزی نیویگیشن", navHome: "گھر", navAlarms: "الارم", navCalendar: "کیلنڈر", navSounds: "آوازیں", navSettings: "ترتیبات",
-    homeEyebrow: "دن کا پُرسکون آغاز", welcome: "اہم باتوں کے لیے وقت نکالیں۔", localTime: "آپ کا مقامی وقت", loading: "لوڈ ہو رہا ہے…",
+    welcome: "اہم باتوں کے لیے وقت نکالیں۔", localTime: "آپ کا مقامی وقت", loading: "لوڈ ہو رہا ہے…",
     alarmsActive: "الارم فعال ہیں", alarmsPaused: "الارم رکے ہوئے ہیں", upNext: "اگلا", nextAlarm: "اگلا الارم", addAlarm: "الارم شامل کریں", newAlarm: "نیا الارم",
     today: "آج", moonNote: "دن کے آغاز میں غور و فکر کے لیے چند لمحے۔", deviceNote: "اینڈرائیڈ پر الارم آلے کے نظام الاوقات سے چلتے ہیں؛ ترسیل آلے کی ترتیبات پر بھی منحصر ہے۔",
     yourRoutine: "آپ کا معمول", alarms: "الارم", scheduledAlarms: "مقررہ الارم", noAlarms: "نئی شروعات", noAlarmsBody: "ابھی کوئی الارم نہیں۔ اپنے معمول کے مطابق الارم بنائیں۔", createFirst: "پہلا الارم بنائیں",
@@ -102,7 +102,7 @@ const messages = {
   },
   ar: {
     language: "اللغة", mainNavigation: "التنقل الرئيسي", navHome: "الرئيسية", navAlarms: "المنبّهات", navCalendar: "التقويم", navSounds: "الأصوات", navSettings: "الإعدادات",
-    homeEyebrow: "بداية هادئة ليومك", welcome: "اللہ مجھے دیکھ رہا ہے", localTime: "الوقت المحلي", loading: "جارٍ التحميل…",
+    welcome: "اللہ مجھے دیکھ رہا ہے", localTime: "الوقت المحلي", loading: "جارٍ التحميل…",
     alarmsActive: "المنبّهات نشطة", alarmsPaused: "المنبّهات متوقفة", upNext: "التالي", nextAlarm: "المنبّه التالي", addAlarm: "إضافة منبّه", newAlarm: "منبّه جديد",
     today: "اليوم", moonNote: "لحظات للتأمل مع بداية اليوم.", deviceNote: "تستخدم المنبّهات المجدول الأصلي في أندرويد؛ ويظل التسليم مرتبطًا بإعدادات الجهاز.",
     yourRoutine: "روتينك", alarms: "المنبّهات", scheduledAlarms: "المنبّهات المجدولة", noAlarms: "بداية جديدة", noAlarmsBody: "لا توجد منبّهات بعد. أنشئ منبّهًا يناسبك.", createFirst: "أنشئ أول منبّه",
@@ -147,7 +147,7 @@ const messages = {
   },
   hi: {
     language: "भाषा", mainNavigation: "मुख्य नेविगेशन", navHome: "होम", navAlarms: "अलार्म", navCalendar: "कैलेंडर", navSounds: "ध्वनियाँ", navSettings: "सेटिंग",
-    homeEyebrow: "दिन की एक शांत शुरुआत", welcome: "اللہ مجھے دیکھ رہا ہے", localTime: "आपका स्थानीय समय", loading: "लोड हो रहा है…",
+    welcome: "اللہ مجھے دیکھ رہا ہے", localTime: "आपका स्थानीय समय", loading: "लोड हो रहा है…",
     alarmsActive: "अलार्म चालू हैं", alarmsPaused: "अलार्म रुके हैं", upNext: "आगे", nextAlarm: "अगला अलार्म", addAlarm: "अलार्म जोड़ें", newAlarm: "नया अलार्म",
     today: "आज", moonNote: "दिन की शुरुआत में चिंतन के कुछ पल।", deviceNote: "Android पर अलार्म डिवाइस के मूल शेड्यूलर से चलते हैं; डिलीवरी डिवाइस सेटिंग पर भी निर्भर है।",
     yourRoutine: "आपकी दिनचर्या", alarms: "अलार्म", scheduledAlarms: "शेड्यूल किए गए अलार्म", noAlarms: "नई शुरुआत", noAlarmsBody: "अभी कोई अलार्म नहीं है। अपनी दिनचर्या के लिए एक बनाएँ।", createFirst: "पहला अलार्म बनाएँ",
@@ -288,7 +288,7 @@ function loadSettings() {
   catch (error) { console.error("Could not load app settings:", error); }
   return {
     language: ["en", "ur", "ar", "hi"].includes(saved.language) ? saved.language : "en",
-    theme: ["system", "light", "dark"].includes(saved.theme) ? saved.theme : "system",
+    theme: ["system", "light", "dark"].includes(saved.theme) ? saved.theme : "dark",
     timeFormat: ["system", "12", "24"].includes(saved.timeFormat) ? saved.timeFormat : "system",
     defaultSnooze: SNOOZE_OPTIONS.includes(saved.defaultSnooze) ? saved.defaultSnooze : 5,
     defaultVolume: Number.isFinite(saved.defaultVolume) ? Math.max(0, Math.min(100, saved.defaultVolume)) : 75,
@@ -406,7 +406,7 @@ function applyTheme() {
   const dark = state.settings.theme === "dark"
     || (state.settings.theme === "system" && window.matchMedia?.("(prefers-color-scheme: dark)").matches);
   document.documentElement.dataset.theme = dark ? "dark" : "light";
-  document.querySelector('meta[name="theme-color"]').content = dark ? "#101b16" : "#102820";
+  document.querySelector('meta[name="theme-color"]').content = dark ? "#1b2120" : "#f5f3e9";
 }
 
 function hijriParts(date) {

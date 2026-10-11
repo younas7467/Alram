@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#102820">
+    <meta name="theme-color" content="#1b2120">
     <meta name="description" content="A thoughtful alarm clock with a Hijri calendar.">
     <title>Dabbagh Alram</title>
     <link rel="stylesheet" href="style.css">
@@ -51,19 +51,13 @@
         <section class="view is-active" id="view-home" data-view="home" aria-labelledby="home-title">
           <div class="welcome-row">
             <div>
-              <p class="eyebrow" data-i18n="homeEyebrow" hidden></p>
               <h1 class="urdu-heading" id="home-title" lang="ur" dir="rtl">اللہ مجھے دیکھ رہا ہے</h1>
+              <p class="welcome-translation" lang="en">Allah Is Watching Me</p>
             </div>
             <span class="today-pill" id="today-label">Today</span>
           </div>
 
-          <section class="clock-card pattern-card" aria-label="Local time">
-            <div class="clock-art" aria-hidden="true">
-              <span class="clock-art-ring"></span>
-              <span class="clock-art-star">✦</span>
-              <span class="clock-art-crescent" hidden></span>
-              <span class="clock-art-line"></span>
-            </div>
+          <section class="clock-card" aria-label="Local time">
             <div class="clock-copy">
               <p class="eyebrow" data-i18n="localTime">YOUR LOCAL TIME</p>
               <time class="clock-time" id="clock-time">--:--</time>
