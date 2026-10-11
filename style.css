@@ -418,3 +418,65 @@ h2 { color: var(--forest); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* DABBAGH ALRAM — Dark Grey + Light Green Theme */
+:root {
+  --forest: #1d2423;
+  --gold: #a6d9ad;
+  --gold-light: #c5edca;
+  --paper: #252b2a;
+  --ink: #f3f6f3;
+  --line: #3b4440;
+}
+
+body {
+  background: #1b2120;
+  color: #f3f6f3;
+}
+
+.surface,
+.surface-next-card,
+.surface-date-card,
+article {
+  background-color: #282f2d;
+  border-color: #3b4440;
+  color: #f3f6f3;
+}
+
+.button-primary,
+button.button-primary {
+  background: #a6d9ad;
+  color: #17231b;
+  border-color: #a6d9ad;
+}
+
+button:hover {
+  filter: brightness(1.06);
+}
+
+.brand-mark {
+  background: #28352d;
+  border-color: #a6d9ad;
+}
+
+.brand-mark svg {
+  stroke: #c5edca;
+}
+
+.hijri-chip {
+  color: #203427;
+  background: #c5edca;
+}
+
+input,
+select,
+textarea {
+  background: #252b2a;
+  color: #f3f6f3;
+  border-color: #46534b;
+}
+
+::selection {
+  background: #a6d9ad;
+  color: #17231b;
+}
