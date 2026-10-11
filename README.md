@@ -9,7 +9,11 @@ npm ci
 npm run build
 ```
 
-The build copies `index.html`, `style.css`, and `script.js` into Capacitor's `www/` directory.
+The build copies `index.html`, `style.css`, `script.js`, and any files under `assets/` into Capacitor's `www/` directory.
+
+## Urdu heading font
+
+Jameel Noori Nastaleeq is not included. Place a licensed `JameelNooriNastaleeq.woff2` file in `assets/fonts/` and add the `@font-face` declaration shown in `assets/fonts/README.txt` to `style.css` to enable it. Until then, the heading uses Nastaliq/Naskh system-font fallbacks; no bundled font or ringtone audio is assumed.
 
 ## Build the Android APK
 

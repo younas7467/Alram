@@ -98,6 +98,7 @@ main { padding-top: 27px; }
 .eyebrow { margin: 0; color: #9a8356; font-size: 10px; font-weight: 800; letter-spacing: .17em; line-height: 1.5; }
 h1, h2, p { overflow-wrap: anywhere; }
 h1 { margin: 6px 0 0; color: var(--forest); font-family: Georgia, "Times New Roman", serif; font-size: clamp(25px, 5vw, 33px); font-weight: 500; letter-spacing: -.025em; line-height: 1.15; }
+.urdu-heading { max-width: 100%; font-family: "Jameel Noori Nastaleeq", "Noto Nastaliq Urdu", "Noto Naskh Arabic", "Noto Sans Arabic", serif; font-size: clamp(27px, 6vw, 38px); font-weight: 500; letter-spacing: 0; line-height: 1.65; text-align: right; }
 h2 { color: var(--forest); }
 .today-pill { padding: 8px 12px; border: 1px solid #e5dcc7; border-radius: 999px; color: #705b35; background: #fbf6e9; font-size: 11px; font-weight: 700; white-space: nowrap; }
 
@@ -292,6 +293,7 @@ h2 { color: var(--forest); }
 .sound-field .field-label { margin-top: 3px; }
 .selected-sound { color: var(--muted); font-size: 11px; }
 .sound-field .button { min-height: 36px; padding: 0 11px; font-size: 10px; }
+.alarm-preview-row { margin-top: 2px; }
 .compact-switch { min-height: 58px; }
 .dialog-actions { display: flex; justify-content: flex-end; gap: 9px; padding-top: 16px; margin-top: 12px; border-top: 1px solid #eeeade; }
 .form-error { margin: 11px 0 0; color: var(--danger); font-size: 11px; line-height: 1.5; }

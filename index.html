@@ -52,7 +52,7 @@
           <div class="welcome-row">
             <div>
               <p class="eyebrow" data-i18n="homeEyebrow">A QUIETER START TO YOUR DAY</p>
-              <h1 id="home-title" data-i18n="welcome">Make space for what matters.</h1>
+              <h1 class="urdu-heading" id="home-title" lang="ur" dir="rtl">اللہ مجھے دیکھ رہا ہے</h1>
             </div>
             <span class="today-pill" id="today-label">Today</span>
           </div>
@@ -266,6 +266,10 @@
           <div><label class="field-label" data-i18n="alarmTone">Alarm tone</label><span id="alarm-sound-name" class="selected-sound">System alarm</span></div>
           <button class="button button-outline" id="pick-alarm-sound" type="button" data-i18n="chooseSound">Choose sound</button>
           <input id="alarm-sound-uri" type="hidden">
+        </div>
+        <div class="button-row alarm-preview-row">
+          <button class="button button-outline" id="preview-alarm-sound" type="button"><svg class="icon"><use href="#icon-sound"/></svg><span data-i18n="preview">Preview</span></button>
+          <button class="button button-outline" id="stop-alarm-preview" type="button" disabled data-i18n="stopPreview">Stop preview</button>
         </div>
         <label class="control-label" for="alarm-volume"><span data-i18n="alarmVolume">Alarm volume</span><output id="alarm-volume-output" for="alarm-volume">75%</output></label>
         <input class="range-control" id="alarm-volume" type="range" min="0" max="100" value="75">

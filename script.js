@@ -10,7 +10,7 @@ const LOCALES = { en: "en-US", ur: "ur-PK", ar: "ar-SA", hi: "hi-IN" };
 const messages = {
   en: {
     language: "Language", mainNavigation: "Main navigation", navHome: "Home", navAlarms: "Alarms", navCalendar: "Calendar", navSounds: "Sounds", navSettings: "Settings",
-    homeEyebrow: "A QUIETER START TO YOUR DAY", welcome: "Make space for what matters.", localTime: "YOUR LOCAL TIME", loading: "Loading…",
+    homeEyebrow: "A QUIETER START TO YOUR DAY", welcome: "اللہ مجھے دیکھ رہا ہے", localTime: "YOUR LOCAL TIME", loading: "Loading…",
     alarmsActive: "Alarms active", alarmsPaused: "Alarms paused", upNext: "UP NEXT", nextAlarm: "Next alarm", addAlarm: "Add alarm", newAlarm: "New alarm",
     today: "TODAY", moonNote: "A little time for reflection, whenever the day begins.", deviceNote: "Alarms use your device's native scheduler on Android. Delivery still depends on device settings.",
     yourRoutine: "YOUR ROUTINE", alarms: "Alarms", scheduledAlarms: "Scheduled alarms", noAlarms: "A fresh start", noAlarmsBody: "You don't have any alarms yet. Create one that works for you.", createFirst: "Create your first alarm",
@@ -39,7 +39,8 @@ const messages = {
     nativePermissionWarning: "The alarm was scheduled, but one or more Android permissions are unavailable. Review Settings; timing or alarm presentation may be limited.",
     permissionError: "Could not open permission settings. Check Android Settings.",
     ringtoneError: "The Android sound picker could not be opened.", ringtoneUnavailable: "That sound is unavailable. Choose another Android alarm sound.",
-    previewUnavailable: "Sound preview is available from the Android sound picker.", notificationGranted: "Notifications are enabled.",
+    previewUnavailable: "A browser-generated tone is used here; Android device ringtones are available in the Android app.", notificationGranted: "Notifications are enabled.",
+    clockUnavailable: "Local time is temporarily unavailable.",
     notificationsUnsupported: "Browser notifications are not supported here. Android alarms use native notifications.",
     alarmSnoozed: "Alarm snoozed for {minutes} minutes.", alarmDismissed: "Alarm dismissed.", snoozeFailed: "The alarm could not be snoozed. Try again.",
     dismissFailed: "The alarm could not be dismissed. Try again.", noSoundSelected: "System alarm", onceFinished: "One-time alarm completed.",
@@ -86,7 +87,7 @@ const messages = {
     permissionError: "اجازتوں کی ترتیبات نہیں کھل سکیں۔ اینڈرائیڈ ترتیبات دیکھیں۔",
     ringtoneError: "اینڈرائیڈ ساؤنڈ چننے والا نہیں کھل سکا۔", ringtoneUnavailable: "یہ آواز دستیاب نہیں۔ دوسری الارم آواز منتخب کریں۔",
     previewUnavailable: "آواز کا نمونہ اینڈرائیڈ ساؤنڈ چننے والے میں دستیاب ہے۔", notificationGranted: "اطلاعات فعال ہیں۔",
-    notificationsUnsupported: "اس براؤزر میں اطلاعات دستیاب نہیں۔ اینڈرائیڈ الارم نظام کی اطلاعات استعمال کرتے ہیں۔",
+    notificationsUnsupported: "اس براؤزر میں اطلاعات دستیاب نہیں۔ اینڈرائیڈ الارم نظام کی اطلاعات استعمال کرتے ہیں۔", clockUnavailable: "مقامی وقت عارضی طور پر دستیاب نہیں۔",
     alarmNotificationTitle: "ڈباغ الارم", alarmNotificationBody: "{label} · {time}",
     alarmSnoozed: "الارم {minutes} منٹ کے لیے ملتوی ہے۔", alarmDismissed: "الارم بند کر دیا گیا۔", snoozeFailed: "الارم ملتوی نہیں ہو سکا۔ دوبارہ کوشش کریں۔",
     dismissFailed: "الارم بند نہیں ہو سکا۔ دوبارہ کوشش کریں۔", noSoundSelected: "سسٹم الارم", onceFinished: "ایک بار والا الارم مکمل ہوا۔",
@@ -101,7 +102,7 @@ const messages = {
   },
   ar: {
     language: "اللغة", mainNavigation: "التنقل الرئيسي", navHome: "الرئيسية", navAlarms: "المنبّهات", navCalendar: "التقويم", navSounds: "الأصوات", navSettings: "الإعدادات",
-    homeEyebrow: "بداية هادئة ليومك", welcome: "امنح وقتك لما يهمك.", localTime: "الوقت المحلي", loading: "جارٍ التحميل…",
+    homeEyebrow: "بداية هادئة ليومك", welcome: "اللہ مجھے دیکھ رہا ہے", localTime: "الوقت المحلي", loading: "جارٍ التحميل…",
     alarmsActive: "المنبّهات نشطة", alarmsPaused: "المنبّهات متوقفة", upNext: "التالي", nextAlarm: "المنبّه التالي", addAlarm: "إضافة منبّه", newAlarm: "منبّه جديد",
     today: "اليوم", moonNote: "لحظات للتأمل مع بداية اليوم.", deviceNote: "تستخدم المنبّهات المجدول الأصلي في أندرويد؛ ويظل التسليم مرتبطًا بإعدادات الجهاز.",
     yourRoutine: "روتينك", alarms: "المنبّهات", scheduledAlarms: "المنبّهات المجدولة", noAlarms: "بداية جديدة", noAlarmsBody: "لا توجد منبّهات بعد. أنشئ منبّهًا يناسبك.", createFirst: "أنشئ أول منبّه",
@@ -133,7 +134,7 @@ const messages = {
     ringtoneError: "تعذر فتح منتقي الأصوات في أندرويد.", ringtoneUnavailable: "هذا الصوت غير متاح. اختر صوت منبّه آخر.", previewUnavailable: "تتوفر معاينة الصوت في منتقي أصوات أندرويد.",
     alarmNotificationTitle: "منبّه دباغ", alarmNotificationBody: "{label} · {time}",
     notificationGranted: "الإشعارات مفعّلة.", alarmSnoozed: "تم تأجيل المنبّه {minutes} دقائق.", alarmDismissed: "تم إيقاف المنبّه.",
-    notificationsUnsupported: "إشعارات المتصفح غير متاحة هنا. تستخدم منبّهات أندرويد إشعارات النظام.",
+    notificationsUnsupported: "إشعارات المتصفح غير متاحة هنا. تستخدم منبّهات أندرويد إشعارات النظام.", clockUnavailable: "الوقت المحلي غير متاح مؤقتًا.",
     snoozeFailed: "تعذر تأجيل المنبّه. حاول مجددًا.", dismissFailed: "تعذر إيقاف المنبّه. حاول مجددًا.", noSoundSelected: "منبّه النظام", onceFinished: "اكتمل المنبّه لمرة واحدة.",
     tapToEdit: "اضغط لتعديل المنبّه", defaultTimeLabel: "منبّه",     selectedDate: "التاريخ المحدد: {date}", noOccasions: "لا توجد مناسبات مدرجة هذا الشهر.", minutesShort: "دقيقة",
     eventMuharram: "رأس السنة الهجرية", eventAshura: "يوم عاشوراء", eventMawlid: "المولد النبوي", eventIsra: "الإسراء والمعراج",
@@ -146,7 +147,7 @@ const messages = {
   },
   hi: {
     language: "भाषा", mainNavigation: "मुख्य नेविगेशन", navHome: "होम", navAlarms: "अलार्म", navCalendar: "कैलेंडर", navSounds: "ध्वनियाँ", navSettings: "सेटिंग",
-    homeEyebrow: "दिन की एक शांत शुरुआत", welcome: "ज़रूरी बातों के लिए समय निकालें।", localTime: "आपका स्थानीय समय", loading: "लोड हो रहा है…",
+    homeEyebrow: "दिन की एक शांत शुरुआत", welcome: "اللہ مجھے دیکھ رہا ہے", localTime: "आपका स्थानीय समय", loading: "लोड हो रहा है…",
     alarmsActive: "अलार्म चालू हैं", alarmsPaused: "अलार्म रुके हैं", upNext: "आगे", nextAlarm: "अगला अलार्म", addAlarm: "अलार्म जोड़ें", newAlarm: "नया अलार्म",
     today: "आज", moonNote: "दिन की शुरुआत में चिंतन के कुछ पल।", deviceNote: "Android पर अलार्म डिवाइस के मूल शेड्यूलर से चलते हैं; डिलीवरी डिवाइस सेटिंग पर भी निर्भर है।",
     yourRoutine: "आपकी दिनचर्या", alarms: "अलार्म", scheduledAlarms: "शेड्यूल किए गए अलार्म", noAlarms: "नई शुरुआत", noAlarmsBody: "अभी कोई अलार्म नहीं है। अपनी दिनचर्या के लिए एक बनाएँ।", createFirst: "पहला अलार्म बनाएँ",
@@ -178,7 +179,7 @@ const messages = {
     ringtoneError: "Android साउंड पिकर नहीं खुल सका।", ringtoneUnavailable: "यह ध्वनि उपलब्ध नहीं है। दूसरी Android अलार्म ध्वनि चुनें।", previewUnavailable: "ध्वनि पूर्वावलोकन Android साउंड पिकर में उपलब्ध है।",
     alarmNotificationTitle: "दब्बाग अलार्म", alarmNotificationBody: "{label} · {time}",
     notificationGranted: "सूचनाएँ चालू हैं।", alarmSnoozed: "अलार्म {minutes} मिनट के लिए स्नूज़ किया गया।", alarmDismissed: "अलार्म बंद किया गया।",
-    notificationsUnsupported: "यहाँ ब्राउज़र सूचनाएँ उपलब्ध नहीं हैं। Android अलार्म सिस्टम सूचनाओं का उपयोग करते हैं।",
+    notificationsUnsupported: "यहाँ ब्राउज़र सूचनाएँ उपलब्ध नहीं हैं। Android अलार्म सिस्टम सूचनाओं का उपयोग करते हैं।", clockUnavailable: "स्थानीय समय अभी उपलब्ध नहीं है।",
     snoozeFailed: "अलार्म स्नूज़ नहीं हो सका। फिर कोशिश करें।", dismissFailed: "अलार्म बंद नहीं हो सका। फिर कोशिश करें।", noSoundSelected: "सिस्टम अलार्म",
     onceFinished: "एक बार वाला अलार्म पूरा हुआ।", tapToEdit: "अलार्म संपादित करने के लिए टैप करें", defaultTimeLabel: "अलार्म",
     selectedDate: "चुनी हुई तारीख: {date}", noOccasions: "इस महीने कोई अवसर सूचीबद्ध नहीं है।", minutesShort: "मिनट",
@@ -208,6 +209,9 @@ const state = {
   snoozeUntil: null,
   audio: null,
   audioTimer: null,
+  clockTimer: null,
+  clockErrorReported: false,
+  previewTarget: null,
   toastTimer: null,
   nativeListenersConnected: false,
   permissionStatus: null,
@@ -440,19 +444,46 @@ function formatHijri(date, includeYear = true) {
 }
 
 function renderClock() {
-  const now = new Date();
-  const timeValue = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
-  $("#clock-time").textContent = formatTime(timeValue, true);
-  $("#clock-date").textContent = new Intl.DateTimeFormat(locale(), { weekday: "long", year: "numeric", month: "long", day: "numeric" }).format(now);
-  $("#today-label").textContent = new Intl.DateTimeFormat(locale(), { weekday: "long" }).format(now);
-  $("#hero-hijri").textContent = formatHijri(now);
-  $("#header-hijri").textContent = formatHijri(now, false);
-  $("#home-gregorian-date").textContent = new Intl.DateTimeFormat(locale(), { weekday: "long", month: "long", day: "numeric" }).format(now);
-  $("#home-hijri-date").textContent = formatHijri(now);
+  const time = $("#clock-time");
+  const date = $("#clock-date");
+  let now;
+  try {
+    if (!time || !date) throw new Error("The local clock display is missing from the page.");
+    now = new Date();
+    const options = { hour: "2-digit", minute: "2-digit", second: "2-digit" };
+    if (hourCycle()) options.hourCycle = hourCycle();
+    time.textContent = new Intl.DateTimeFormat(locale(), options).format(now);
+    time.dateTime = now.toISOString();
+    date.textContent = new Intl.DateTimeFormat(locale(), {
+      weekday: "long", year: "numeric", month: "long", day: "numeric",
+    }).format(now);
+    state.clockErrorReported = false;
+  } catch (error) {
+    if (!state.clockErrorReported) console.error("Could not render the device's local clock:", error);
+    state.clockErrorReported = true;
+    if (time) time.textContent = "--:--";
+    if (date) date.textContent = t("clockUnavailable");
+    return;
+  }
+  try {
+    $("#today-label").textContent = new Intl.DateTimeFormat(locale(), { weekday: "long" }).format(now);
+    $("#hero-hijri").textContent = formatHijri(now);
+    $("#header-hijri").textContent = formatHijri(now, false);
+    $("#home-gregorian-date").textContent = new Intl.DateTimeFormat(locale(), { weekday: "long", month: "long", day: "numeric" }).format(now);
+    $("#home-hijri-date").textContent = formatHijri(now);
+  } catch (error) {
+    console.error("Could not render calendar dates:", error);
+  }
   $("#monitor-status").textContent = t(state.monitoring ? "alarmsActive" : "alarmsPaused");
   $("#status-indicator").classList.toggle("is-paused", !state.monitoring);
   renderNextAlarm();
   if (!state.native) checkWebAlarms(now);
+}
+
+function startClock() {
+  if (state.clockTimer !== null) return;
+  renderClock();
+  state.clockTimer = window.setInterval(renderClock, 1000);
 }
 
 function weekStart() {
@@ -672,9 +703,15 @@ function renderAlarms() {
 function nextOccurrence(alarm, now = new Date()) {
   if (!alarm.enabled) return null;
   const [hours, minutes] = alarm.time.split(":").map(Number);
-  for (let offset = 0; offset < (alarm.repeat === "once" ? 2 : 8); offset++) {
+  if (alarm.repeat === "once") {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(alarm.date)) return null;
+    const [year, month, day] = alarm.date.split("-").map(Number);
+    const date = new Date(year, month - 1, day, hours, minutes, 0, 0);
+    if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day || date <= now) return null;
+    return date;
+  }
+  for (let offset = 0; offset < 8; offset++) {
     const date = addDays(new Date(now.getFullYear(), now.getMonth(), now.getDate()), offset);
-    if (alarm.repeat === "once" && localDateString(date) !== alarm.date) continue;
     if (alarm.repeat === "weekdays" && !alarm.weekdays.includes(date.getDay())) continue;
     date.setHours(hours, minutes, 0, 0);
     if (date <= now) continue;
@@ -729,6 +766,7 @@ function openAlarmEditor(alarm = null) {
   $("#alarm-volume-output").value = `${$("#alarm-volume").value}%`;
   $("#alarm-vibration").checked = alarm?.vibrate ?? state.settings.defaultVibration;
   $("#alarm-snooze").value = String(alarm?.snoozeMinutes ?? state.settings.defaultSnooze);
+  setPreviewControls("alarm", state.previewTarget === "alarm");
   renderWeekdayPicker(alarm?.weekdays || []);
   updateRepeatFields();
   const dialog = $("#alarm-dialog");
@@ -737,6 +775,7 @@ function openAlarmEditor(alarm = null) {
 }
 
 function closeAlarmEditor() {
+  if (state.previewTarget === "alarm") stopRingtonePreview("alarm");
   const dialog = $("#alarm-dialog");
   if (typeof dialog.close === "function" && dialog.open) dialog.close();
   else dialog.removeAttribute("open");
@@ -754,6 +793,7 @@ async function pickRingtone(target = "alarm") {
     announce(t("previewUnavailable"));
     return;
   }
+  if (state.previewTarget) await stopRingtonePreview();
   const uriInput = target === "default" ? null : $("#alarm-sound-uri");
   const currentUri = uriInput ? uriInput.value : state.settings.defaultSoundUri;
   try {
@@ -775,31 +815,49 @@ async function pickRingtone(target = "alarm") {
   }
 }
 
-async function previewRingtone() {
-  if (!state.native) {
-    announce(t("previewUnavailable"));
-    return;
-  }
+async function previewRingtone(target = "default") {
+  if (state.previewTarget) await stopRingtonePreview();
+  const uri = target === "alarm" ? $("#alarm-sound-uri").value : state.settings.defaultSoundUri;
   try {
-    await state.native.previewRingtone({ uri: state.settings.defaultSoundUri });
-    $("#preview-sound").disabled = true;
-    $("#stop-preview").disabled = false;
+    if (state.native) {
+      await state.native.previewRingtone({ uri });
+    } else {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) throw new Error("Web Audio is unavailable in this browser.");
+      state.audio ||= new AudioContextClass();
+      await state.audio.resume();
+      const volume = target === "alarm"
+        ? Number($("#alarm-volume").value) / 100
+        : state.settings.defaultVolume / 100;
+      playBrowserTone(volume);
+      state.audioTimer = window.setInterval(() => playBrowserTone(volume), 1600);
+    }
+    state.previewTarget = target;
+    setPreviewControls(target, true);
     announce(t("previewPlaying"));
   } catch (error) {
-    console.error("Android ringtone preview failed:", error);
+    console.error("Ringtone preview failed:", error);
     announce(t("ringtoneUnavailable"));
   }
 }
 
-async function stopRingtonePreview() {
-  if (!state.native) return;
+function setPreviewControls(target, playing) {
+  const preview = $(target === "alarm" ? "#preview-alarm-sound" : "#preview-sound");
+  const stop = $(target === "alarm" ? "#stop-alarm-preview" : "#stop-preview");
+  if (preview) preview.disabled = playing;
+  if (stop) stop.disabled = !playing;
+}
+
+async function stopRingtonePreview(target = state.previewTarget) {
+  if (!target) return;
   try {
-    await state.native.stopRingtonePreview();
+    if (state.native) await state.native.stopRingtonePreview();
+    else stopBrowserSound();
   } catch (error) {
-    console.error("Android ringtone preview could not be stopped:", error);
+    console.error("Ringtone preview could not be stopped:", error);
   } finally {
-    $("#preview-sound").disabled = false;
-    $("#stop-preview").disabled = true;
+    setPreviewControls(target, false);
+    if (state.previewTarget === target) state.previewTarget = null;
   }
 }
 
@@ -810,8 +868,7 @@ function renderSoundSettings() {
     ? state.settings.defaultSoundName || t("systemAlarm")
     : t("systemAlarm");
   $("#pick-default-sound").disabled = !state.native;
-  $("#preview-sound").disabled = !state.native;
-  $("#stop-preview").disabled = true;
+  setPreviewControls("default", state.previewTarget === "default");
   $("#sound-support-note").textContent = t(state.native ? "androidSoundNote" : "browserSoundNote");
   $("#default-volume").value = String(state.settings.defaultVolume);
   $("#default-volume-output").value = `${state.settings.defaultVolume}%`;
@@ -1088,6 +1145,10 @@ function stopBrowserSound() {
   window.clearInterval(state.audioTimer);
   state.audioTimer = null;
   if ("vibrate" in navigator) navigator.vibrate(0);
+  if (!state.native && state.previewTarget) {
+    setPreviewControls(state.previewTarget, false);
+    state.previewTarget = null;
+  }
 }
 
 function handleNativeAlarmFired(payload) {
@@ -1275,8 +1336,10 @@ function bindEvents() {
   $("#request-permissions").addEventListener("click", requestPermissions);
   $("#pick-default-sound").addEventListener("click", () => pickRingtone("default"));
   $("#pick-alarm-sound").addEventListener("click", () => pickRingtone("alarm"));
-  $("#preview-sound").addEventListener("click", previewRingtone);
-  $("#stop-preview").addEventListener("click", stopRingtonePreview);
+  $("#preview-sound").addEventListener("click", () => previewRingtone("default"));
+  $("#stop-preview").addEventListener("click", () => stopRingtonePreview("default"));
+  $("#preview-alarm-sound").addEventListener("click", () => previewRingtone("alarm"));
+  $("#stop-alarm-preview").addEventListener("click", () => stopRingtonePreview("alarm"));
   $("#month-previous").addEventListener("click", () => {
     state.month = new Date(state.month.getFullYear(), state.month.getMonth() - 1, 1);
     renderCalendar();
@@ -1291,6 +1354,10 @@ function bindEvents() {
     if (event.target === event.currentTarget) closeAlarmEditor();
   });
   document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState !== "visible") {
+      if (state.previewTarget) stopRingtonePreview();
+      return;
+    }
     if (document.visibilityState === "visible") {
       renderClock();
       if (state.native) {
@@ -1298,27 +1365,31 @@ function bindEvents() {
           state.permissionStatus = status;
           renderPermissionStatus();
         }).catch((error) => console.error("Could not refresh alarm permissions:", error));
-        state.native.stopRingtonePreview().then(() => {
-          $("#preview-sound").disabled = false;
-          $("#stop-preview").disabled = true;
-        }).catch((error) => console.error("Could not stop the Android ringtone preview:", error));
       }
     }
   });
 }
 
-applyLanguage();
-applyTheme();
-bindEvents();
-renderClock();
-renderAlarms();
-renderCalendar();
-renderSoundSettings();
-renderMonitoring();
-renderPermissionStatus();
-navigate("home");
-connectNativeAlarms();
-window.matchMedia?.("(prefers-color-scheme: dark)")?.addEventListener?.("change", () => {
-  if (state.settings.theme === "system") applyTheme();
-});
-window.setInterval(renderClock, 1000);
+function initializeApp() {
+  startClock();
+  try {
+    applyLanguage();
+    applyTheme();
+    bindEvents();
+    renderAlarms();
+    renderCalendar();
+    renderSoundSettings();
+    renderMonitoring();
+    renderPermissionStatus();
+    navigate("home");
+    connectNativeAlarms();
+    window.matchMedia?.("(prefers-color-scheme: dark)")?.addEventListener?.("change", () => {
+      if (state.settings.theme === "system") applyTheme();
+    });
+  } catch (error) {
+    console.error("Dabbagh Alram could not finish initializing:", error);
+    announce(t("clockUnavailable"));
+  }
+}
+
+initializeApp();
