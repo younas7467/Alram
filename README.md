@@ -1,37 +1,42 @@
-# Alram
+# Dabbagh Alram
 
-A responsive 24-hour alarm clock built with plain HTML, CSS, and JavaScript.
+A mobile-first alarm clock and estimated Hijri calendar built with plain HTML, CSS, and JavaScript, packaged with Capacitor 7. The interface includes English, Urdu, Arabic, and Hindi translations, with right-to-left layout for Urdu and Arabic.
 
-## Run locally
-
-Open `index.html` in a browser. Alarms are saved in the browser's local storage. In a desktop browser, keep the page open and alarms unpaused; browser and device power settings can affect background operation.
-
-## Package for Android with Capacitor
-
-The Android app uses a small Capacitor 7 native plugin. Android `AlarmManager` schedules alarms independently of WebView timers, while a foreground media service plays the selected system alarm ringtone. Android stores its own schedule and restores daily alarms after device reboot, time changes, and app updates.
-
-Install Node.js, JDK 21, and the Android Studio / Android SDK prerequisites, then run:
+## Build the web app
 
 ```sh
-npm install
-npm run android:sync
-npx cap open android
+npm ci
+npm run build
 ```
 
-This repository already has an `android/` project; do not run `android:add`. For web changes, run `npm run android:sync` before building. `npm run build` copies the app's HTML, CSS, and JavaScript to Capacitor's `www` directory. The existing GitHub Actions workflow continues to build and upload the debug APK.
+The build copies `index.html`, `style.css`, and `script.js` into Capacitor's `www/` directory.
 
-### Android alarm access
+## Build the Android APK
 
-Tap **Enable alarm permissions** in the app. Android may ask for notification permission, open **Alarms & reminders** settings to allow exact alarms, and (Android 14+) open full-screen notification settings. Granting these settings is required for exact scheduled times and for the alarm screen to appear over the lock screen. If exact-alarm access is denied, Android receives an inexact fallback schedule that can ring late. If notification or full-screen access is denied, the foreground alarm service can still play sound, but lock-screen controls may not appear.
+Install Node.js 22, JDK 21, and Android SDK Platform 35 / Android Gradle Plugin prerequisites, then run:
 
-On some devices, disable battery optimization or allow background activity for Alram if the manufacturer restricts alarms. Android force-stop prevents scheduled app work until the app is launched again. Do not infer alarm reliability from an emulator or build: test the built APK on the target physical device.
+```sh
+npm ci
+npm run android:sync
+cd android
+chmod +x gradlew
+./gradlew assembleDebug
+```
 
-### Test while the screen is locked
+The debug APK is written to `android/app/build/outputs/apk/debug/app-debug.apk`. The project uses Capacitor 7 and its existing native `AlarmManager`, receiver, and foreground media service; no second alarm scheduler is used.
 
-1. Install and open the debug APK; grant the alarm permissions requested above.
-2. Add an alarm for about two minutes ahead and leave **Alarms are active** enabled.
-3. Press the power button to lock the device. Keep it locked through the alarm time.
-4. Verify the system alarm ringtone and alarm screen/notification appear. Test **Snooze 5 min** and **Dismiss** from the lock screen.
-5. Repeat after a reboot to check schedule restoration, and check the device's battery/background restrictions if delivery differs.
+## Alarm behavior and permissions
 
-Background behavior has not been validated on a physical Android device in this development environment.
+Alarms support one-time dates, daily repeats, and selected weekdays. Each alarm stores its label, system alarm ringtone selection, player volume, vibration preference, and snooze duration. On Android, choose sounds through the system alarm sound picker; it provides its own preview. If a selected sound later becomes unavailable, the service logs the problem and attempts the system default alarm sound.
+
+Use **Enable alarm permissions** in Settings to request notification access, exact-alarm access where applicable, and full-screen intent access on supported Android versions. If exact-alarm access is unavailable, the scheduler falls back to an inexact alarm. Android battery management and manufacturer-specific background restrictions may still affect delivery. The app does not request battery-optimization exemption. Force-stopping the app prevents Android from starting its scheduled work until the app is opened again.
+
+## Hijri calendar
+
+The calendar formats dates using the browser's Umm al-Qura Islamic calendar data where available, with an Islamic-calendar fallback. Its listed observances are informational; actual dates may differ by region and moon sighting. The Settings adjustment shifts the displayed date by up to two days. Prayer times are intentionally not shown because this app does not include a verified prayer-time calculation method or location workflow.
+
+## Test on a physical Android device
+
+The app's use of native Android alarms is not a guarantee of delivery on every device. Before relying on it, install the APK, grant the available permissions, schedule an alarm a few minutes ahead, lock the screen, and verify ringing, vibration, sound, snooze, and dismiss. Repeat after reboot and review the device's battery/background settings. These behaviors have not been verified on a physical device as part of this change.
+
+When using the plain browser build, alarm timing and audio depend on the page remaining open and the browser/device allowing its timers and audio to run; use the Android app for native scheduled alarms.

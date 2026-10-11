@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">दब्बाग अलार्म</string>
+    <string name="title_activity_main">दब्बाग अलार्म</string>
+    <string name="package_name">com.alram.clock</string>
+    <string name="custom_url_scheme">com.alram.clock</string>
+</resources>

@@ -1,110 +1,293 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#10131c">
-    <meta name="description" content="A simple, reliable alarm clock.">
-    <title>Alram — Alarm Clock</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#102820">
+    <meta name="description" content="A thoughtful alarm clock with a Hijri calendar.">
+    <title>Dabbagh Alram</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
   </head>
   <body>
-    <main class="app-shell">
+    <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <symbol id="icon-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"/></symbol>
+      <symbol id="icon-alarm" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M5 3 2 6m17-3 3 3"/></symbol>
+      <symbol id="icon-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></symbol>
+      <symbol id="icon-sound" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a6 6 0 0 1 0 7m3-10a10 10 0 0 1 0 13"/></symbol>
+      <symbol id="icon-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.7a8 8 0 0 1-1.5.9l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.5-.9l-1.7.7-1.4-2.4 1.4-1.1a7 7 0 0 1 0-1.8L6.3 12l1.4-2.4 1.7.7a8 8 0 0 1 1.5-.9l.3-1.8H14l.3 1.8a8 8 0 0 1 1.5.9l1.7-.7 1.4 2.4-1.4 1.1a7 7 0 0 1-.1 1.9z" transform="translate(-2 -1)"/></symbol>
+      <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+      <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+      <symbol id="icon-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9m-8 12h4"/></symbol>
+      <symbol id="icon-edit" viewBox="0 0 24 24"><path d="m14 5 5 5M4 20l4-1 11-11a2.1 2.1 0 0 0-3-3L5 16z"/></symbol>
+      <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M3 6h18m-2 0-.9 14H5.9L5 6m4 0V4h6v2m-5 4v6m4-6v6"/></symbol>
+      <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    </svg>
+
+    <div class="app-shell">
       <header class="topbar">
-        <a class="brand" href="#" aria-label="Alram home">
-          <span class="brand-mark" aria-hidden="true">A</span>
-          <span>alram</span>
+        <a class="brand" href="#home" data-view-link="home" aria-label="Dabbagh Alram home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><path d="M15 15h9c12 0 17 7 17 17S36 49 24 49h-9z"/><path d="m31 49 13-34 13 34m-21-12h16"/></svg>
+          </span>
+          <span class="brand-copy"><strong>Dabbagh</strong><small>ALRAM</small></span>
         </a>
-        <button class="icon-button" id="notifications-button" type="button">
-          <span aria-hidden="true">♧</span>
-          <span id="notifications-label">Enable notifications</span>
-        </button>
+        <div class="header-actions">
+          <span class="hijri-chip" id="header-hijri" aria-label="Hijri date">—</span>
+          <label class="language-picker">
+            <span class="visually-hidden" data-i18n="language">Language</span>
+            <select id="language-select" aria-label="Language">
+              <option value="en">English</option>
+              <option value="ur">اردو</option>
+              <option value="ar">العربية</option>
+              <option value="hi">हिन्दी</option>
+            </select>
+          </label>
+        </div>
       </header>
 
-      <section class="clock-panel" aria-labelledby="clock-time">
-        <div class="clock-copy">
-          <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> YOUR LOCAL TIME</p>
-          <h1 id="clock-time" class="clock-time" aria-live="off">--:--:--</h1>
-          <p id="clock-date" class="clock-date">Loading date…</p>
-        </div>
-        <div class="clock-side">
-          <div class="clock-glyph" aria-hidden="true">
-            <span class="glyph-ring"></span>
-            <span class="glyph-hand glyph-hand-hour"></span>
-            <span class="glyph-hand glyph-hand-minute"></span>
-            <span class="glyph-center"></span>
-          </div>
-          <div class="monitor-status">
-            <span class="status-dot" id="status-dot"></span>
-            <span id="monitor-status">Alarms are active</span>
-          </div>
-          <div class="monitor-controls">
-            <button class="text-button" id="start-monitoring" type="button" hidden>Start alarms</button>
-            <button class="text-button" id="stop-monitoring" type="button">Pause alarms</button>
-          </div>
-        </div>
-      </section>
-
-      <div class="content-grid">
-        <section class="alarms-panel panel" aria-labelledby="alarms-heading">
-          <div class="section-heading">
+      <main>
+        <section class="view is-active" id="view-home" data-view="home" aria-labelledby="home-title">
+          <div class="welcome-row">
             <div>
-              <p class="eyebrow">YOUR SCHEDULE</p>
-              <h2 id="alarms-heading">Alarms <span id="alarm-count" class="count-badge">0</span></h2>
+              <p class="eyebrow" data-i18n="homeEyebrow">A QUIETER START TO YOUR DAY</p>
+              <h1 id="home-title" data-i18n="welcome">Make space for what matters.</h1>
             </div>
-            <span class="section-icon" aria-hidden="true">◷</span>
+            <span class="today-pill" id="today-label">Today</span>
           </div>
 
-          <div id="alarm-list" class="alarm-list" aria-live="polite"></div>
-          <p class="empty-state" id="empty-state">No alarms yet. Add one to get started.</p>
-
-          <form id="alarm-form" class="add-alarm-form">
-            <label class="eyebrow" for="alarm-time">ADD AN ALARM</label>
-            <div class="form-row">
-              <input id="alarm-time" name="time" type="time" required aria-label="Alarm time">
-              <button class="add-button" type="submit"><span aria-hidden="true">＋</span> Add alarm</button>
+          <section class="clock-card pattern-card" aria-label="Local time">
+            <div class="clock-art" aria-hidden="true">
+              <span class="clock-art-ring"></span>
+              <span class="clock-art-star">✦</span>
+              <span class="clock-art-crescent">☾</span>
+              <span class="clock-art-line"></span>
             </div>
-          </form>
+            <div class="clock-copy">
+              <p class="eyebrow" data-i18n="localTime">YOUR LOCAL TIME</p>
+              <time class="clock-time" id="clock-time">--:--</time>
+              <p class="clock-date" id="clock-date">Loading…</p>
+              <p class="hijri-date" id="hero-hijri">—</p>
+            </div>
+            <div class="clock-status">
+              <span class="status-indicator" id="status-indicator"></span>
+              <span id="monitor-status">Alarms active</span>
+            </div>
+          </section>
+
+          <section class="home-grid">
+            <article class="surface next-card">
+              <div class="card-heading">
+                <div><p class="eyebrow" data-i18n="upNext">UP NEXT</p><h2 data-i18n="nextAlarm">Next alarm</h2></div>
+                <span class="icon-tile"><svg class="icon"><use href="#icon-alarm"/></svg></span>
+              </div>
+              <div id="next-alarm-content" class="next-alarm-content"></div>
+              <button class="button button-primary button-wide" id="home-add-alarm" type="button">
+                <svg class="icon"><use href="#icon-plus"/></svg><span data-i18n="addAlarm">Add alarm</span>
+              </button>
+            </article>
+
+            <article class="surface date-card">
+              <p class="eyebrow" data-i18n="today">TODAY</p>
+              <h2 id="home-gregorian-date">—</h2>
+              <p class="date-card-hijri" id="home-hijri-date">—</p>
+              <p class="muted-copy" data-i18n="moonNote">A little time for reflection, whenever the day begins.</p>
+            </article>
+          </section>
+
+          <div class="home-footer-note" data-i18n="deviceNote">Alarms use your device's native scheduler on Android. Delivery still depends on device settings.</div>
         </section>
 
-        <aside class="side-column">
-          <section class="next-panel panel" aria-labelledby="next-heading">
-            <p class="eyebrow">COMING UP</p>
-            <h2 id="next-heading">Next alarm</h2>
-            <p class="next-time" id="next-time">—:—</p>
-            <p class="next-caption" id="next-caption">Add an alarm to see what’s next.</p>
-            <div class="next-rule"></div>
-            <p class="small-note" id="alarm-reliability-note">Alarms ring once per scheduled day. Desktop alarms require this page to remain open.</p>
-          </section>
-
-          <section class="tips-panel" aria-label="Alarm controls">
-            <span class="tips-icon" aria-hidden="true">♫</span>
-            <p><strong>Ready when you are.</strong><br>Alarm sound plays on this device. Snooze gives you 5 more minutes.</p>
-          </section>
-        </aside>
-      </div>
-
-      <section class="ringing-panel" id="ringing-panel" aria-live="assertive" hidden>
-        <div class="ringing-copy">
-          <span class="ringing-icon" aria-hidden="true">◉</span>
-          <div>
-            <p class="eyebrow">ALARM IS RINGING</p>
-            <h2 id="ringing-time">It’s time to wake up</h2>
+        <section class="view" id="view-alarms" data-view="alarms" aria-labelledby="alarms-title" hidden>
+          <div class="page-heading">
+            <div><p class="eyebrow" data-i18n="yourRoutine">YOUR ROUTINE</p><h1 id="alarms-title" data-i18n="alarms">Alarms</h1></div>
+            <button class="button button-primary" id="add-alarm" type="button"><svg class="icon"><use href="#icon-plus"/></svg><span data-i18n="newAlarm">New alarm</span></button>
           </div>
-        </div>
-        <div class="ringing-controls">
-          <button class="snooze-button" id="snooze-button" type="button">Snooze 5 min</button>
-          <button class="stop-button" id="stop-button" type="button">Stop alarm</button>
-        </div>
-      </section>
+          <section class="surface alarms-surface">
+            <div class="list-heading"><span data-i18n="scheduledAlarms">Scheduled alarms</span><span class="count-badge" id="alarm-count">0</span></div>
+            <div class="empty-state" id="empty-state">
+              <span class="empty-orbit" aria-hidden="true"><svg class="icon"><use href="#icon-alarm"/></svg></span>
+              <h2 data-i18n="noAlarms">A fresh start</h2>
+              <p data-i18n="noAlarmsBody">You don't have any alarms yet. Create one that works for you.</p>
+              <button class="button button-secondary" id="empty-add-alarm" type="button" data-i18n="createFirst">Create your first alarm</button>
+            </div>
+            <div class="alarm-list" id="alarm-list" aria-live="polite"></div>
+          </section>
+        </section>
 
-      <footer class="footer">
-        <span>ALRAM <span aria-hidden="true">·</span> SIMPLE TIME, BETTER MORNINGS</span>
-        <span>Times shown in your local timezone</span>
-      </footer>
-    </main>
+        <section class="view" id="view-calendar" data-view="calendar" aria-labelledby="calendar-title" hidden>
+          <div class="page-heading">
+            <div><p class="eyebrow" data-i18n="reflectAndPlan">REFLECT &amp; PLAN</p><h1 id="calendar-title" data-i18n="islamicCalendar">Islamic calendar</h1></div>
+          </div>
+          <section class="surface calendar-surface">
+            <div class="calendar-toolbar">
+              <button class="icon-button" id="month-previous" type="button" data-i18n-aria="previousMonth" aria-label="Previous month"><svg class="icon"><use href="#icon-chevron-left"/></svg></button>
+              <h2 id="calendar-month">—</h2>
+              <button class="icon-button" id="month-next" type="button" data-i18n-aria="nextMonth" aria-label="Next month"><svg class="icon"><use href="#icon-chevron-right"/></svg></button>
+            </div>
+            <div class="calendar-headings" id="calendar-weekdays"></div>
+            <div class="calendar-grid" id="calendar-grid" role="grid" aria-label="Calendar"></div>
+            <div class="calendar-legend"><span class="legend-dot"></span><span data-i18n="islamicOccasion">Islamic occasion</span></div>
+          </section>
+          <p class="calendar-selection" id="calendar-selection" aria-live="polite"></p>
+          <section class="surface occasion-surface">
+            <p class="eyebrow" data-i18n="upcomingOccasions">UPCOMING OCCASIONS</p>
+            <div id="occasion-list" class="occasion-list"></div>
+          </section>
+          <aside class="notice-card">
+            <span class="notice-symbol" aria-hidden="true">☾</span>
+            <p data-i18n="hijriDisclaimer">Hijri dates are estimates and may vary by region and moon sighting. Adjust the displayed date in Settings. This calendar does not provide prayer times.</p>
+          </aside>
+        </section>
 
+        <section class="view" id="view-sounds" data-view="sounds" aria-labelledby="sounds-title" hidden>
+          <div class="page-heading">
+            <div><p class="eyebrow" data-i18n="soundAndFeel">SOUND &amp; FEEL</p><h1 id="sounds-title" data-i18n="sounds">Sounds</h1></div>
+          </div>
+          <section class="surface settings-card">
+            <div class="setting-row setting-row-stack">
+              <div class="setting-icon"><svg class="icon"><use href="#icon-sound"/></svg></div>
+              <div class="setting-copy"><h2 data-i18n="alarmTone">Alarm tone</h2><p data-i18n="toneDescription">Choose from alarm sounds available on your Android device.</p></div>
+            </div>
+            <div class="sound-choice">
+              <div><strong id="sound-name">System alarm</strong><span class="setting-caption" data-i18n="selectedForNew">Default for new alarms</span></div>
+              <button class="button button-secondary" id="pick-default-sound" type="button" data-i18n="chooseSound">Choose sound</button>
+            </div>
+            <div class="button-row">
+              <button class="button button-outline" id="preview-sound" type="button"><svg class="icon"><use href="#icon-sound"/></svg><span data-i18n="preview">Preview</span></button>
+              <button class="button button-outline" id="stop-preview" type="button" disabled data-i18n="stopPreview">Stop preview</button>
+            </div>
+            <p class="inline-note" id="sound-support-note" data-i18n="androidSoundNote">On Android, the system sound picker includes a built-in preview. No bundled music is used.</p>
+          </section>
+          <section class="surface settings-card">
+            <p class="eyebrow" data-i18n="defaultsForNew">DEFAULTS FOR NEW ALARMS</p>
+            <label class="control-label" for="default-volume"><span data-i18n="alarmVolume">Alarm volume</span><output id="default-volume-output" for="default-volume">75%</output></label>
+            <input class="range-control" id="default-volume" type="range" min="0" max="100" value="75">
+            <label class="switch-row">
+              <span><strong data-i18n="vibration">Vibration</strong><small data-i18n="vibrationDescription">Vibrate while the alarm is sounding</small></span>
+              <span class="switch"><input id="default-vibration" type="checkbox" checked><span class="switch-track"></span></span>
+            </label>
+          </section>
+          <p class="notice-card" data-i18n="soundLimitNote">The alarm uses your selected device sound and configured volume. Media volume is not changed.</p>
+        </section>
+
+        <section class="view" id="view-settings" data-view="settings" aria-labelledby="settings-title" hidden>
+          <div class="page-heading">
+            <div><p class="eyebrow" data-i18n="personalize">PERSONALIZE</p><h1 id="settings-title" data-i18n="settings">Settings</h1></div>
+          </div>
+          <section class="surface settings-card" id="notifications-section" aria-labelledby="notifications-title">
+            <div class="card-heading">
+              <div><p class="eyebrow" data-i18n="stayInformed">STAY INFORMED</p><h2 id="notifications-title" data-i18n="notifications">Notifications &amp; permissions</h2></div>
+              <span class="icon-tile"><svg class="icon"><use href="#icon-bell"/></svg></span>
+            </div>
+            <p class="setting-description" data-i18n="permissionDescription">Review the Android access needed for scheduled alarms, sound, and lock-screen controls.</p>
+            <div class="permission-status" id="permission-status" aria-live="polite"></div>
+            <button class="button button-primary" id="request-permissions" type="button" data-i18n="enablePermissions">Enable alarm permissions</button>
+            <p class="inline-note" id="reliability-note" data-i18n="reliabilityNote">Alarm delivery and lock-screen presentation depend on Android version, permissions, and device battery policies.</p>
+          </section>
+          <section class="surface settings-card">
+            <p class="eyebrow" data-i18n="appPreferences">APP PREFERENCES</p>
+            <label class="control-label" for="settings-language"><span data-i18n="language">Language</span>
+              <select id="settings-language" class="select-control">
+                <option value="en">English</option><option value="ur">اردو</option><option value="ar">العربية</option><option value="hi">हिन्दी</option>
+              </select>
+            </label>
+            <label class="control-label" for="time-format"><span data-i18n="timeFormat">Time format</span>
+              <select id="time-format" class="select-control">
+                <option value="system" data-i18n="systemDefault">Device default</option><option value="12" data-i18n="twelveHour">12-hour</option><option value="24" data-i18n="twentyFourHour">24-hour</option>
+              </select>
+            </label>
+            <label class="control-label" for="default-snooze"><span data-i18n="defaultSnooze">Default snooze</span>
+              <select id="default-snooze" class="select-control">
+                <option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option><option value="20">20 min</option>
+              </select>
+            </label>
+            <label class="control-label" for="hijri-adjustment"><span data-i18n="hijriAdjustment">Hijri date adjustment</span><output id="hijri-adjustment-output">0</output></label>
+            <input class="range-control" id="hijri-adjustment" type="range" min="-2" max="2" step="1" value="0">
+            <p class="inline-note" data-i18n="hijriSettingNote">A small display adjustment only; local moon sighting remains authoritative.</p>
+            <label class="switch-row">
+              <span><strong data-i18n="alarmsEnabled">Alarms are active</strong><small data-i18n="alarmsEnabledDescription">Pause or resume all scheduled alarms</small></span>
+              <span class="switch"><input id="monitoring-toggle" type="checkbox" checked><span class="switch-track"></span></span>
+            </label>
+          </section>
+          <section class="surface settings-card about-card">
+            <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M15 15h9c12 0 17 7 17 17S36 49 24 49h-9z"/><path d="m31 49 13-34 13 34m-21-12h16"/></svg></span>
+            <div><h2>Dabbagh Alram</h2><p data-i18n="versionNote">Thoughtful timekeeping. Built for your daily rhythm.</p></div>
+          </section>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="Main navigation">
+        <button class="nav-item is-current" type="button" data-nav="home" aria-current="page"><svg class="icon"><use href="#icon-home"/></svg><span data-i18n="navHome">Home</span></button>
+        <button class="nav-item" type="button" data-nav="alarms"><svg class="icon"><use href="#icon-alarm"/></svg><span data-i18n="navAlarms">Alarms</span></button>
+        <button class="nav-item" type="button" data-nav="calendar"><svg class="icon"><use href="#icon-calendar"/></svg><span data-i18n="navCalendar">Calendar</span></button>
+        <button class="nav-item" type="button" data-nav="sounds"><svg class="icon"><use href="#icon-sound"/></svg><span data-i18n="navSounds">Sounds</span></button>
+        <button class="nav-item" type="button" data-nav="settings"><svg class="icon"><use href="#icon-settings"/></svg><span data-i18n="navSettings">Settings</span></button>
+      </nav>
+    </div>
+
+    <dialog class="alarm-dialog" id="alarm-dialog" aria-labelledby="alarm-dialog-title">
+      <form id="alarm-form">
+        <div class="dialog-heading">
+          <div><p class="eyebrow" data-i18n="makeItYours">MAKE IT YOURS</p><h2 id="alarm-dialog-title" data-i18n="newAlarm">New alarm</h2></div>
+          <button class="icon-button dialog-close" id="close-alarm-dialog" type="button" data-i18n-aria="close" aria-label="Close">×</button>
+        </div>
+        <input id="alarm-id" type="hidden">
+        <label class="field-label" for="alarm-time" data-i18n="time">Time</label>
+        <input class="input-control time-input" id="alarm-time" name="time" type="time" required>
+        <label class="field-label" for="alarm-label" data-i18n="alarmLabel">Label</label>
+        <input class="input-control" id="alarm-label" name="label" type="text" maxlength="48" placeholder="e.g. Morning routine">
+        <label class="field-label" for="alarm-repeat" data-i18n="repeat">Repeat</label>
+        <select class="input-control" id="alarm-repeat" name="repeat">
+          <option value="once" data-i18n="oneTime">Once</option>
+          <option value="daily" data-i18n="everyDay">Every day</option>
+          <option value="weekdays" data-i18n="selectedDays">Selected days</option>
+        </select>
+        <div id="once-date-row" class="field-group">
+          <label class="field-label" for="alarm-date" data-i18n="date">Date</label>
+          <input class="input-control" id="alarm-date" name="date" type="date">
+        </div>
+        <fieldset class="weekday-picker" id="weekday-picker" hidden>
+          <legend class="field-label" data-i18n="repeatOn">Repeat on</legend>
+          <div id="weekday-options" class="weekday-options"></div>
+        </fieldset>
+        <div class="field-group sound-field">
+          <div><label class="field-label" data-i18n="alarmTone">Alarm tone</label><span id="alarm-sound-name" class="selected-sound">System alarm</span></div>
+          <button class="button button-outline" id="pick-alarm-sound" type="button" data-i18n="chooseSound">Choose sound</button>
+          <input id="alarm-sound-uri" type="hidden">
+        </div>
+        <label class="control-label" for="alarm-volume"><span data-i18n="alarmVolume">Alarm volume</span><output id="alarm-volume-output" for="alarm-volume">75%</output></label>
+        <input class="range-control" id="alarm-volume" type="range" min="0" max="100" value="75">
+        <label class="switch-row compact-switch">
+          <span><strong data-i18n="vibration">Vibration</strong><small data-i18n="vibrationDescription">Vibrate while the alarm is sounding</small></span>
+          <span class="switch"><input id="alarm-vibration" type="checkbox" checked><span class="switch-track"></span></span>
+        </label>
+        <label class="field-label" for="alarm-snooze" data-i18n="snoozeDuration">Snooze duration</label>
+        <select class="input-control" id="alarm-snooze">
+          <option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option><option value="20">20 min</option>
+        </select>
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+        <div class="dialog-actions">
+          <button class="button button-outline" id="cancel-alarm" type="button" data-i18n="cancel">Cancel</button>
+          <button class="button button-primary" type="submit" data-i18n="saveAlarm">Save alarm</button>
+        </div>
+      </form>
+    </dialog>
+
+    <section class="ringing-overlay" id="ringing-overlay" role="alertdialog" aria-modal="true" aria-labelledby="ringing-title" hidden>
+      <div class="ringing-card">
+        <span class="ringing-orbit" aria-hidden="true"><svg class="icon"><use href="#icon-alarm"/></svg></span>
+        <p class="eyebrow" data-i18n="alarmRinging">ALARM IS RINGING</p>
+        <h2 id="ringing-title">—:—</h2>
+        <p id="ringing-label"></p>
+        <div class="dialog-actions">
+          <button class="button button-outline" id="ringing-snooze" type="button" data-i18n="snooze">Snooze</button>
+          <button class="button button-primary" id="ringing-dismiss" type="button" data-i18n="dismiss">Dismiss</button>
+        </div>
+      </div>
+    </section>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
     <div id="announcement" class="visually-hidden" role="status" aria-live="polite"></div>
   </body>
 </html>

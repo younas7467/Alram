@@ -8,10 +8,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import com.alram.clock.MainActivity;
+import java.util.Calendar;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.Calendar;
 
 final class AlarmScheduler {
     static final String PREFS = "alram_native_alarms";
@@ -47,9 +47,7 @@ final class AlarmScheduler {
         boolean oldSnoozeStillValid = false;
         for (int index = 0; index < oldAlarms.length(); index++) {
             JSONObject previous = oldAlarms.optJSONObject(index);
-            if (previous != null) {
-                cancel(context, previous.optString("id"), false);
-            }
+            if (previous != null) cancel(context, previous.optString("id"), false);
         }
 
         preferences.edit()
@@ -62,12 +60,9 @@ final class AlarmScheduler {
             JSONObject alarm = alarms.optJSONObject(index);
             if (alarm == null) continue;
             String id = alarm.optString("id");
-            String time = alarm.optString("time");
-            boolean enabled = alarm.optBoolean("enabled", false);
-            if (id.equals(oldSnoozeId) && enabled) oldSnoozeStillValid = true;
-            if (monitoring && enabled) {
-                scheduleDaily(context, id, time);
-                scheduledCount++;
+            if (id.equals(oldSnoozeId) && alarm.optBoolean("enabled", false)) oldSnoozeStillValid = true;
+            if (monitoring && alarm.optBoolean("enabled", false)) {
+                if (scheduleNext(context, alarm)) scheduledCount++;
             } else {
                 cancel(context, id, true);
             }
@@ -85,6 +80,37 @@ final class AlarmScheduler {
         return result;
     }
 
+    static JSONObject getAlarms(Context context) throws JSONException {
+        android.content.SharedPreferences preferences = preferences(context);
+        JSONObject result = new JSONObject();
+        result.put("initialized", preferences.contains(ALARMS_KEY));
+        result.put("alarms", new JSONArray(preferences.getString(ALARMS_KEY, "[]")));
+        return result;
+    }
+
+    static boolean onAlarmFired(Context context, String id) {
+        android.content.SharedPreferences preferences = preferences(context);
+        try {
+            JSONArray alarms = new JSONArray(preferences.getString(ALARMS_KEY, "[]"));
+            for (int index = 0; index < alarms.length(); index++) {
+                JSONObject alarm = alarms.optJSONObject(index);
+                if (alarm == null || !id.equals(alarm.optString("id"))) continue;
+                if (!alarm.optBoolean("enabled", false)) return false;
+                if ("once".equals(alarm.optString("repeat", "daily"))) {
+                    alarm.put("enabled", false);
+                    alarms.put(index, alarm);
+                    preferences.edit().putString(ALARMS_KEY, alarms.toString()).apply();
+                    return true;
+                }
+                scheduleNext(context, alarm);
+                return false;
+            }
+        } catch (JSONException error) {
+            Log.e(TAG, "Could not update the fired alarm.", error);
+        }
+        return false;
+    }
+
     static void restore(Context context) {
         android.content.SharedPreferences preferences = preferences(context);
         if (!preferences.getBoolean(MONITORING_KEY, true)) return;
@@ -92,9 +118,7 @@ final class AlarmScheduler {
             JSONArray alarms = new JSONArray(preferences.getString(ALARMS_KEY, "[]"));
             for (int index = 0; index < alarms.length(); index++) {
                 JSONObject alarm = alarms.optJSONObject(index);
-                if (alarm != null && alarm.optBoolean("enabled", false)) {
-                    scheduleDaily(context, alarm.optString("id"), alarm.optString("time"));
-                }
+                if (alarm != null && alarm.optBoolean("enabled", false)) scheduleNext(context, alarm);
             }
             long snoozeAt = preferences.getLong(SNOOZE_AT_KEY, 0);
             String snoozeId = preferences.getString(SNOOZE_ID_KEY, null);
@@ -122,28 +146,89 @@ final class AlarmScheduler {
         return null;
     }
 
-    static void scheduleDaily(Context context, String id, String time) {
-        Calendar next = Calendar.getInstance();
+    private static boolean scheduleNext(Context context, JSONObject alarm) {
+        String id = alarm.optString("id");
+        String time = alarm.optString("time");
         String[] parts = time.split(":");
-        if (parts.length != 2) {
-            Log.e(TAG, "Skipping invalid alarm time: " + time);
-            return;
+        if (id.isEmpty() || parts.length != 2) {
+            Log.e(TAG, "Skipping alarm with an invalid ID or time: " + id + " " + time);
+            return false;
         }
+
+        int hour;
+        int minute;
         try {
-            next.set(Calendar.HOUR_OF_DAY, Integer.parseInt(parts[0]));
-            next.set(Calendar.MINUTE, Integer.parseInt(parts[1]));
+            hour = Integer.parseInt(parts[0]);
+            minute = Integer.parseInt(parts[1]);
+        } catch (NumberFormatException error) {
+            Log.e(TAG, "Skipping alarm with an invalid time: " + time, error);
+            return false;
+        }
+        if (hour < 0 || hour > 23 || minute < 0 || minute > 59) {
+            Log.e(TAG, "Skipping alarm with an out-of-range time: " + time);
+            return false;
+        }
+
+        String repeat = alarm.optString("repeat", "daily");
+        Calendar now = Calendar.getInstance();
+        Calendar next = Calendar.getInstance();
+        if ("once".equals(repeat)) {
+            String[] dateParts = alarm.optString("date").split("-");
+            if (dateParts.length != 3) {
+                Log.e(TAG, "Skipping one-time alarm without a valid date: " + id);
+                return false;
+            }
+            try {
+                next.set(Integer.parseInt(dateParts[0]), Integer.parseInt(dateParts[1]) - 1,
+                    Integer.parseInt(dateParts[2]), hour, minute, 0);
+                next.set(Calendar.MILLISECOND, 0);
+            } catch (IllegalArgumentException error) {
+                Log.e(TAG, "Skipping one-time alarm with an invalid date: " + id, error);
+                return false;
+            }
+            if (next.get(Calendar.YEAR) != Integer.parseInt(dateParts[0])
+                || next.get(Calendar.MONTH) != Integer.parseInt(dateParts[1]) - 1
+                || next.get(Calendar.DAY_OF_MONTH) != Integer.parseInt(dateParts[2])
+                || next.getTimeInMillis() <= now.getTimeInMillis()) {
+                return false;
+            }
+            scheduleAt(context, id, time, false, next.getTimeInMillis());
+            return true;
+        }
+
+        JSONArray weekdays = alarm.optJSONArray("weekdays");
+        if ("weekdays".equals(repeat) && (weekdays == null || weekdays.length() == 0)) {
+            Log.e(TAG, "Skipping repeating alarm with no selected weekdays: " + id);
+            return false;
+        }
+        for (int offset = 0; offset <= 7; offset++) {
+            next.setTimeInMillis(now.getTimeInMillis());
+            next.add(Calendar.DAY_OF_YEAR, offset);
+            next.set(Calendar.HOUR_OF_DAY, hour);
+            next.set(Calendar.MINUTE, minute);
             next.set(Calendar.SECOND, 0);
             next.set(Calendar.MILLISECOND, 0);
-        } catch (NumberFormatException error) {
-            Log.e(TAG, "Skipping invalid alarm time: " + time, error);
-            return;
+            if (next.getTimeInMillis() <= now.getTimeInMillis()) continue;
+            if ("weekdays".equals(repeat)) {
+                int javascriptDay = (next.get(Calendar.DAY_OF_WEEK) + 6) % 7;
+                boolean matches = false;
+                for (int index = 0; index < weekdays.length(); index++) {
+                    if (weekdays.optInt(index, -1) == javascriptDay) {
+                        matches = true;
+                        break;
+                    }
+                }
+                if (!matches) continue;
+            }
+            scheduleAt(context, id, time, false, next.getTimeInMillis());
+            return true;
         }
-        if (next.getTimeInMillis() <= System.currentTimeMillis()) next.add(Calendar.DAY_OF_YEAR, 1);
-        scheduleAt(context, id, time, false, next.getTimeInMillis());
+        return false;
     }
 
-    static void scheduleSnooze(Context context, String id, String time) {
-        long triggerAt = System.currentTimeMillis() + 5 * 60 * 1000L;
+    static void scheduleSnooze(Context context, String id, String time, int minutes) {
+        int safeMinutes = Math.max(1, Math.min(minutes, 60));
+        long triggerAt = System.currentTimeMillis() + safeMinutes * 60 * 1000L;
         preferences(context).edit()
             .putString(SNOOZE_ID_KEY, id)
             .putString(SNOOZE_TIME_KEY, time)

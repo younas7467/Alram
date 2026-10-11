@@ -24,36 +24,23 @@ public final class AlarmReceiver extends BroadcastReceiver {
 
         if (isSnooze) {
             AlarmScheduler.clearSnooze(context);
-        } else {
+        }
+
+        org.json.JSONObject alarm = AlarmScheduler.getAlarm(context, id);
+        boolean oneTimeFinished = false;
+        if (!isSnooze) {
             if (!AlarmScheduler.preferences(context).getBoolean(AlarmScheduler.MONITORING_KEY, true)) return;
-            android.content.SharedPreferences preferences = AlarmScheduler.preferences(context);
-            try {
-                org.json.JSONArray alarms = new org.json.JSONArray(preferences.getString(AlarmScheduler.ALARMS_KEY, "[]"));
-                boolean enabled = false;
-                for (int index = 0; index < alarms.length(); index++) {
-                    org.json.JSONObject alarm = alarms.optJSONObject(index);
-                    if (alarm != null && id.equals(alarm.optString("id"))) {
-                        enabled = alarm.optBoolean("enabled", false);
-                        break;
-                    }
-                }
-                if (!enabled) return;
-                org.json.JSONObject alarm = AlarmScheduler.getAlarm(context, id);
-                if (alarm != null) AlarmScheduler.scheduleDaily(context, id, alarm.optString("time"));
-            } catch (org.json.JSONException error) {
-                Log.e(TAG, "Could not verify the fired alarm.", error);
-                return;
-            }
+            if (alarm == null || !alarm.optBoolean("enabled", false)) return;
+            oneTimeFinished = AlarmScheduler.onAlarmFired(context, id);
         }
 
         Intent service = new Intent(context, AlarmService.class)
             .putExtra(EXTRA_ALARM_ID, id)
             .putExtra(AlarmService.EXTRA_IS_SNOOZE, isSnooze);
-        org.json.JSONObject alarm = AlarmScheduler.getAlarm(context, id);
         service.putExtra(AlarmService.EXTRA_ALARM_TIME, alarm == null ? "" : alarm.optString("time"));
         try {
             ContextCompat.startForegroundService(context, service);
-            NativeAlarmPlugin.emitAlarmFired(id, service.getStringExtra(AlarmService.EXTRA_ALARM_TIME), isSnooze);
+            NativeAlarmPlugin.emitAlarmFired(id, alarm, isSnooze, oneTimeFinished);
         } catch (RuntimeException error) {
             Log.e(TAG, "Could not start the alarm playback service.", error);
         }
