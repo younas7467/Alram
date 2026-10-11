@@ -47,7 +47,10 @@ jobs:
         run: npx cap sync android
 
       - name: Build debug APK
-        run: cd android && chmod +x gradlew && ./gradlew assembleDebug
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
 
       - name: Upload debug APK
         if: success()
