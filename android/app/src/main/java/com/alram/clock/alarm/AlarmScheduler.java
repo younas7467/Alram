@@ -56,12 +56,14 @@ final class AlarmScheduler {
             .apply();
 
         int scheduledCount = 0;
+        int requestedCount = 0;
         for (int index = 0; index < alarms.length(); index++) {
             JSONObject alarm = alarms.optJSONObject(index);
             if (alarm == null) continue;
             String id = alarm.optString("id");
             if (id.equals(oldSnoozeId) && alarm.optBoolean("enabled", false)) oldSnoozeStillValid = true;
             if (monitoring && alarm.optBoolean("enabled", false)) {
+                requestedCount++;
                 if (scheduleNext(context, alarm)) scheduledCount++;
             } else {
                 cancel(context, id, true);
@@ -77,6 +79,7 @@ final class AlarmScheduler {
         JSONObject result = new JSONObject();
         result.put("exactAlarmAllowed", canScheduleExactAlarms(context));
         result.put("scheduledCount", scheduledCount);
+        result.put("requestedCount", requestedCount);
         return result;
     }
 
@@ -192,8 +195,7 @@ final class AlarmScheduler {
                 || next.getTimeInMillis() <= now.getTimeInMillis()) {
                 return false;
             }
-            scheduleAt(context, id, time, false, next.getTimeInMillis());
-            return true;
+            return scheduleAt(context, id, time, false, next.getTimeInMillis());
         }
 
         JSONArray weekdays = alarm.optJSONArray("weekdays");
@@ -220,8 +222,7 @@ final class AlarmScheduler {
                 }
                 if (!matches) continue;
             }
-            scheduleAt(context, id, time, false, next.getTimeInMillis());
-            return true;
+            return scheduleAt(context, id, time, false, next.getTimeInMillis());
         }
         return false;
     }
@@ -241,11 +242,11 @@ final class AlarmScheduler {
         cancelSnooze(context);
     }
 
-    private static void scheduleAt(Context context, String id, String time, boolean snooze, long triggerAt) {
+    private static boolean scheduleAt(Context context, String id, String time, boolean snooze, long triggerAt) {
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (manager == null) {
             Log.e(TAG, "AlarmManager is unavailable.");
-            return;
+            return false;
         }
         PendingIntent operation = pendingIntent(context, id, snooze);
         try {
@@ -263,9 +264,11 @@ final class AlarmScheduler {
             } else {
                 manager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, operation);
             }
+            return true;
         } catch (SecurityException error) {
             Log.w(TAG, "Exact-alarm access changed while scheduling; using an inexact alarm.", error);
             manager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, operation);
+            return true;
         }
     }
 

@@ -268,6 +268,7 @@ h2 { color: var(--forest); }
 .nav-item .icon { width: 20px; height: 20px; }
 .nav-item.is-current { color: var(--emerald); background: #edf3eb; }
 .nav-item.is-current .icon { stroke-width: 2; }
+.quick-add-alarm { position: fixed; z-index: 11; inset-inline-end: max(18px, calc((100vw - 930px) / 2)); bottom: calc(82px + env(safe-area-inset-bottom)); min-height: 50px; padding-inline: 20px; border-radius: 16px; box-shadow: 0 10px 28px rgb(16 40 32 / 24%); }
 
 .alarm-dialog { width: min(100% - 24px, 480px); max-height: min(90dvh, 850px); padding: 0; overflow: auto; border: 1px solid #e8e1d2; border-radius: 22px; color: var(--ink); background: var(--paper); box-shadow: 0 28px 90px rgb(12 33 26 / 30%); }
 .alarm-dialog::backdrop { background: rgb(9 27 20 / 62%); backdrop-filter: blur(3px); }
@@ -312,6 +313,60 @@ h2 { color: var(--forest); }
 [dir="rtl"] .clock-time { letter-spacing: 0; }
 [dir="rtl"] .alarm-time { letter-spacing: 0; }
 
+[data-theme="dark"] {
+  color-scheme: dark;
+  --forest: #e6efe7;
+  --forest-deep: #d2e2d5;
+  --emerald: #77c29a;
+  --emerald-bright: #8bd3aa;
+  --gold: #d6b56d;
+  --gold-light: #efdaa4;
+  --ivory: #101b16;
+  --paper: #172720;
+  --ink: #e6eee8;
+  --muted: #a5b3aa;
+  --line: #39483f;
+  --soft-green: #22392d;
+  --danger: #f0a39a;
+  --shadow: 0 18px 50px rgb(0 0 0 / 20%);
+}
+
+[data-theme="dark"] body { background: radial-gradient(ellipse at 90% 0%, rgb(197 165 97 / 7%), transparent 34rem), var(--ivory); }
+[data-theme="dark"] .topbar { border-color: rgb(230 238 232 / 12%); }
+[data-theme="dark"] .hijri-chip,
+[data-theme="dark"] .today-pill { border-color: #514831; color: #e0c987; background: #2b2a20; }
+[data-theme="dark"] .surface { border-color: #34453b; }
+[data-theme="dark"] .icon-tile,
+[data-theme="dark"] .setting-icon { border-color: #4b4634; color: var(--gold-light); background: #292a22; }
+[data-theme="dark"] .button-secondary { border-color: #3b5947; color: #9bd4b1; background: #20372b; }
+[data-theme="dark"] .button-primary { color: #fffdf6; background: #236b4a; }
+[data-theme="dark"] .button-primary:hover { background: #2b8059; }
+[data-theme="dark"] .button-secondary:hover,
+[data-theme="dark"] .button-outline:hover,
+[data-theme="dark"] .icon-button:hover { background: #2b3a30; }
+[data-theme="dark"] .bottom-nav { border-color: rgb(230 238 232 / 12%); background: rgb(23 39 32 / 95%); }
+[data-theme="dark"] .nav-item { color: #a5b3aa; }
+[data-theme="dark"] .nav-item.is-current { color: #9bd4b1; background: #263d30; }
+[data-theme="dark"] .input-control,
+[data-theme="dark"] .select-control,
+[data-theme="dark"] .language-picker select { border-color: #46564c; color: var(--ink); background: #1c2c24; }
+[data-theme="dark"] .weekday-option,
+[data-theme="dark"] .alarm-row,
+[data-theme="dark"] .occasion-item,
+[data-theme="dark"] .permission-item { border-color: #39483f; color: var(--ink); background: #1c2c24; }
+[data-theme="dark"] .weekday-option:has(input:checked) { color: #102820; background: #77c29a; }
+[data-theme="dark"] .notice-card { border-color: #514831; color: #e0c987; background: #292a22; }
+[data-theme="dark"] .sound-choice,
+[data-theme="dark"] .switch-row,
+[data-theme="dark"] .dialog-actions { border-color: #39483f; }
+[data-theme="dark"] .calendar-grid,
+[data-theme="dark"] .calendar-day { border-color: #39483f; }
+[data-theme="dark"] .calendar-day:hover,
+[data-theme="dark"] .calendar-day.is-selected { background: #22392d; }
+[data-theme="dark"] .field-label { color: #c2d0c6; }
+[data-theme="dark"] .alarm-dialog { border-color: #39483f; }
+[data-theme="dark"] .range-control { accent-color: var(--emerald); }
+
 @media (max-width: 620px) {
   .app-shell { width: min(100% - 28px, 500px); }
   .topbar { min-height: 68px; }
@@ -343,6 +398,7 @@ h2 { color: var(--forest); }
   .permission-status { grid-template-columns: 1fr; }
   .bottom-nav { gap: 2px; justify-content: space-around; padding-inline: 6px; }
   .nav-item { min-width: 54px; flex: 1 1 20%; padding-inline: 2px; font-size: 9px; }
+  .quick-add-alarm { inset-inline-end: 16px; bottom: calc(82px + env(safe-area-inset-bottom)); }
 }
 
 @media (max-width: 390px) {

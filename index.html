@@ -193,6 +193,13 @@
                 <option value="en">English</option><option value="ur">اردو</option><option value="ar">العربية</option><option value="hi">हिन्दी</option>
               </select>
             </label>
+            <label class="control-label" for="theme-select"><span data-i18n="themeSetting">Theme</span>
+              <select id="theme-select" class="select-control">
+                <option value="system" data-i18n="systemDefault">Device default</option>
+                <option value="light" data-i18n="lightTheme">Light</option>
+                <option value="dark" data-i18n="darkTheme">Dark</option>
+              </select>
+            </label>
             <label class="control-label" for="time-format"><span data-i18n="timeFormat">Time format</span>
               <select id="time-format" class="select-control">
                 <option value="system" data-i18n="systemDefault">Device default</option><option value="12" data-i18n="twelveHour">12-hour</option><option value="24" data-i18n="twentyFourHour">24-hour</option>
@@ -225,6 +232,9 @@
         <button class="nav-item" type="button" data-nav="sounds"><svg class="icon"><use href="#icon-sound"/></svg><span data-i18n="navSounds">Sounds</span></button>
         <button class="nav-item" type="button" data-nav="settings"><svg class="icon"><use href="#icon-settings"/></svg><span data-i18n="navSettings">Settings</span></button>
       </nav>
+      <button class="button button-primary quick-add-alarm" id="quick-add-alarm" type="button">
+        <svg class="icon"><use href="#icon-plus"/></svg><span data-i18n="addAlarm">Add alarm</span>
+      </button>
     </div>
 
     <dialog class="alarm-dialog" id="alarm-dialog" aria-labelledby="alarm-dialog-title">

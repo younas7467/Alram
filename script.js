@@ -28,13 +28,16 @@ const messages = {
     permissionDescription: "Review the Android access needed for scheduled alarms, sound, and lock-screen controls.",
     enablePermissions: "Enable alarm permissions", exactAlarmPermission: "Exact alarm access", notificationPermission: "Notifications", fullScreenPermission: "Lock-screen alarm display",
     permissionGranted: "Allowed", permissionNeeded: "Needs attention", permissionUnknown: "Checking", reliabilityNote: "Alarm delivery and lock-screen presentation depend on Android version, permissions, and device battery policies.",
-    appPreferences: "APP PREFERENCES", timeFormat: "Time format", systemDefault: "Device default", twelveHour: "12-hour", twentyFourHour: "24-hour",
+    appPreferences: "APP PREFERENCES", themeSetting: "Theme", lightTheme: "Light", darkTheme: "Dark",
+    timeFormat: "Time format", systemDefault: "Device default", twelveHour: "12-hour", twentyFourHour: "24-hour",
     defaultSnooze: "Default snooze", hijriAdjustment: "Hijri date adjustment", hijriSettingNote: "A small display adjustment only; local moon sighting remains authoritative.",
     alarmsEnabled: "Alarms are active", alarmsEnabledDescription: "Pause or resume all scheduled alarms", versionNote: "Thoughtful timekeeping. Built for your daily rhythm.",
     alarmRinging: "ALARM IS RINGING", snooze: "Snooze", dismiss: "Dismiss", alarmSaved: "Alarm saved.", alarmCreated: "Alarm created.", alarmDeleted: "Alarm deleted.",
-    alarmOn: "Alarm enabled.", alarmOff: "Alarm disabled.", invalidTime: "Choose a valid alarm time.", invalidDate: "Choose a date today or later.",
+    alarmOn: "Alarm enabled.", alarmOff: "Alarm disabled.", invalidTime: "Choose a valid alarm time.", invalidDate: "Choose a future date and time.",
     chooseWeekday: "Choose at least one day for a repeating alarm.", couldNotSave: "Your alarm could not be saved. Check available storage and try again.",
-    nativeSyncError: "Android could not schedule the alarm. Review alarm access in Settings.", permissionError: "Could not open permission settings. Check Android Settings.",
+    nativeSyncError: "Android could not confirm scheduling this alarm. It remains saved in the app; check alarm access in Settings.",
+    nativePermissionWarning: "The alarm was scheduled, but one or more Android permissions are unavailable. Review Settings; timing or alarm presentation may be limited.",
+    permissionError: "Could not open permission settings. Check Android Settings.",
     ringtoneError: "The Android sound picker could not be opened.", ringtoneUnavailable: "That sound is unavailable. Choose another Android alarm sound.",
     previewUnavailable: "Sound preview is available from the Android sound picker.", notificationGranted: "Notifications are enabled.",
     notificationsUnsupported: "Browser notifications are not supported here. Android alarms use native notifications.",
@@ -71,13 +74,16 @@ const messages = {
     enablePermissions: "الارم کی اجازتیں فعال کریں", exactAlarmPermission: "بالکل درست الارم", notificationPermission: "اطلاعات", fullScreenPermission: "لاک اسکرین الارم",
     permissionGranted: "اجازت ہے", permissionNeeded: "توجہ درکار", permissionUnknown: "جانچ جاری",
     reliabilityNote: "الارم کی ترسیل اور لاک اسکرین Android ورژن، اجازتوں اور بیٹری پالیسی پر منحصر ہے۔",
-    appPreferences: "ایپ کی ترجیحات", timeFormat: "وقت کی شکل", systemDefault: "آلے کے مطابق", twelveHour: "۱۲ گھنٹے", twentyFourHour: "۲۴ گھنٹے",
+    appPreferences: "ایپ کی ترجیحات", themeSetting: "تھیم", lightTheme: "ہلکی", darkTheme: "گہری",
+    timeFormat: "وقت کی شکل", systemDefault: "آلے کے مطابق", twelveHour: "۱۲ گھنٹے", twentyFourHour: "۲۴ گھنٹے",
     defaultSnooze: "طے شدہ اسنوز", hijriAdjustment: "ہجری تاریخ کی درستی", hijriSettingNote: "یہ صرف دکھائی جانے والی تاریخ میں معمولی درستی ہے؛ مقامی چاند کی رؤیت مقدم ہے۔",
     alarmsEnabled: "الارم فعال ہیں", alarmsEnabledDescription: "تمام مقررہ الارم روکیں یا دوبارہ چلائیں", versionNote: "سوچ سمجھ کر وقت کا خیال، روزمرہ کے معمول کے لیے۔",
     alarmRinging: "الارم بج رہا ہے", snooze: "اسنوز", dismiss: "بند کریں", alarmSaved: "الارم محفوظ ہو گیا۔", alarmCreated: "الارم بنا دیا گیا۔", alarmDeleted: "الارم حذف ہو گیا۔",
-    alarmOn: "الارم فعال ہے۔", alarmOff: "الارم بند ہے۔", invalidTime: "درست الارم وقت منتخب کریں۔", invalidDate: "آج یا اس کے بعد کی تاریخ منتخب کریں۔",
+    alarmOn: "الارم فعال ہے۔", alarmOff: "الارم بند ہے۔", invalidTime: "درست الارم وقت منتخب کریں۔", invalidDate: "مستقبل کی تاریخ اور وقت منتخب کریں۔",
     chooseWeekday: "دہرائے جانے والے الارم کے لیے کم از کم ایک دن منتخب کریں۔", couldNotSave: "الارم محفوظ نہیں ہو سکا۔ جگہ دیکھ کر دوبارہ کوشش کریں۔",
-    nativeSyncError: "اینڈرائیڈ الارم مقرر نہیں کر سکا۔ ترتیبات میں الارم کی اجازت دیکھیں۔", permissionError: "اجازتوں کی ترتیبات نہیں کھل سکیں۔ اینڈرائیڈ ترتیبات دیکھیں۔",
+    nativeSyncError: "اینڈرائیڈ الارم کا وقت مقرر ہونے کی تصدیق نہیں کر سکا۔ یہ ایپ میں محفوظ ہے؛ ترتیبات میں اجازتیں دیکھیں۔",
+    nativePermissionWarning: "الارم مقرر ہو گیا، لیکن اینڈرائیڈ کی کچھ اجازتیں دستیاب نہیں۔ ترتیبات دیکھیں؛ وقت یا الارم کی نمائش متاثر ہو سکتی ہے۔",
+    permissionError: "اجازتوں کی ترتیبات نہیں کھل سکیں۔ اینڈرائیڈ ترتیبات دیکھیں۔",
     ringtoneError: "اینڈرائیڈ ساؤنڈ چننے والا نہیں کھل سکا۔", ringtoneUnavailable: "یہ آواز دستیاب نہیں۔ دوسری الارم آواز منتخب کریں۔",
     previewUnavailable: "آواز کا نمونہ اینڈرائیڈ ساؤنڈ چننے والے میں دستیاب ہے۔", notificationGranted: "اطلاعات فعال ہیں۔",
     notificationsUnsupported: "اس براؤزر میں اطلاعات دستیاب نہیں۔ اینڈرائیڈ الارم نظام کی اطلاعات استعمال کرتے ہیں۔",
@@ -114,13 +120,16 @@ const messages = {
     enablePermissions: "تفعيل أذونات المنبّه", exactAlarmPermission: "إذن المنبّه الدقيق", notificationPermission: "الإشعارات", fullScreenPermission: "عرض المنبّه على شاشة القفل",
     permissionGranted: "مسموح", permissionNeeded: "يتطلب الانتباه", permissionUnknown: "جارٍ التحقق",
     reliabilityNote: "يعتمد وصول المنبّه وعرضه على شاشة القفل على إصدار أندرويد والأذونات وسياسات بطارية الجهاز.",
-    appPreferences: "تفضيلات التطبيق", timeFormat: "تنسيق الوقت", systemDefault: "إعداد الجهاز", twelveHour: "١٢ ساعة", twentyFourHour: "٢٤ ساعة",
+    appPreferences: "تفضيلات التطبيق", themeSetting: "المظهر", lightTheme: "فاتح", darkTheme: "داكن",
+    timeFormat: "تنسيق الوقت", systemDefault: "إعداد الجهاز", twelveHour: "١٢ ساعة", twentyFourHour: "٢٤ ساعة",
     defaultSnooze: "مدة الغفوة الافتراضية", hijriAdjustment: "تعديل التاريخ الهجري", hijriSettingNote: "تعديل بسيط للعرض فقط؛ وتبقى رؤية الهلال المحلية هي المرجع.",
     alarmsEnabled: "المنبّهات نشطة", alarmsEnabledDescription: "إيقاف أو استئناف كل المنبّهات المجدولة", versionNote: "وقتٌ بتأنٍ، مصمم لإيقاع يومك.",
     alarmRinging: "المنبّه يرن", snooze: "غفوة", dismiss: "إيقاف", alarmSaved: "تم حفظ المنبّه.", alarmCreated: "تم إنشاء المنبّه.", alarmDeleted: "تم حذف المنبّه.",
-    alarmOn: "تم تفعيل المنبّه.", alarmOff: "تم إيقاف المنبّه.", invalidTime: "اختر وقتًا صالحًا للمنبّه.", invalidDate: "اختر تاريخ اليوم أو تاريخًا لاحقًا.",
+    alarmOn: "تم تفعيل المنبّه.", alarmOff: "تم إيقاف المنبّه.", invalidTime: "اختر وقتًا صالحًا للمنبّه.", invalidDate: "اختر تاريخًا ووقتًا في المستقبل.",
     chooseWeekday: "اختر يومًا واحدًا على الأقل لتكرار المنبّه.", couldNotSave: "تعذر حفظ المنبّه. تحقق من مساحة التخزين وحاول مجددًا.",
-    nativeSyncError: "تعذر على أندرويد جدولة المنبّه. راجع إذن المنبّهات في الإعدادات.", permissionError: "تعذر فتح إعدادات الأذونات. راجع إعدادات أندرويد.",
+    nativeSyncError: "تعذر على أندرويد تأكيد جدولة المنبّه. سيبقى محفوظًا في التطبيق؛ راجع أذونات المنبّهات في الإعدادات.",
+    nativePermissionWarning: "تمت جدولة المنبّه، لكن بعض أذونات أندرويد غير متاحة. راجع الإعدادات؛ قد يتأثر التوقيت أو عرض المنبّه.",
+    permissionError: "تعذر فتح إعدادات الأذونات. راجع إعدادات أندرويد.",
     ringtoneError: "تعذر فتح منتقي الأصوات في أندرويد.", ringtoneUnavailable: "هذا الصوت غير متاح. اختر صوت منبّه آخر.", previewUnavailable: "تتوفر معاينة الصوت في منتقي أصوات أندرويد.",
     alarmNotificationTitle: "منبّه دباغ", alarmNotificationBody: "{label} · {time}",
     notificationGranted: "الإشعارات مفعّلة.", alarmSnoozed: "تم تأجيل المنبّه {minutes} دقائق.", alarmDismissed: "تم إيقاف المنبّه.",
@@ -156,13 +165,16 @@ const messages = {
     enablePermissions: "अलार्म अनुमतियाँ चालू करें", exactAlarmPermission: "सटीक अलार्म एक्सेस", notificationPermission: "सूचनाएँ", fullScreenPermission: "लॉक-स्क्रीन अलार्म डिस्प्ले",
     permissionGranted: "अनुमति मिली", permissionNeeded: "ध्यान दें", permissionUnknown: "जाँच जारी",
     reliabilityNote: "अलार्म डिलीवरी और लॉक-स्क्रीन प्रदर्शन Android संस्करण, अनुमतियों और बैटरी नीतियों पर निर्भर करता है।",
-    appPreferences: "ऐप प्राथमिकताएँ", timeFormat: "समय प्रारूप", systemDefault: "डिवाइस डिफ़ॉल्ट", twelveHour: "12 घंटे", twentyFourHour: "24 घंटे",
+    appPreferences: "ऐप प्राथमिकताएँ", themeSetting: "थीम", lightTheme: "हल्की", darkTheme: "गहरी",
+    timeFormat: "समय प्रारूप", systemDefault: "डिवाइस डिफ़ॉल्ट", twelveHour: "12 घंटे", twentyFourHour: "24 घंटे",
     defaultSnooze: "डिफ़ॉल्ट स्नूज़", hijriAdjustment: "हिजरी तारीख समायोजन", hijriSettingNote: "यह केवल प्रदर्शन समायोजन है; स्थानीय चाँद दिखना ही मान्य रहेगा।",
     alarmsEnabled: "अलार्म सक्रिय हैं", alarmsEnabledDescription: "सभी शेड्यूल किए गए अलार्म रोकें या फिर चालू करें", versionNote: "सोच-समझकर समय, आपकी दिनचर्या के लिए।",
     alarmRinging: "अलार्म बज रहा है", snooze: "स्नूज़", dismiss: "बंद करें", alarmSaved: "अलार्म सहेजा गया।", alarmCreated: "अलार्म बनाया गया।", alarmDeleted: "अलार्म हटा दिया गया।",
-    alarmOn: "अलार्म चालू किया गया।", alarmOff: "अलार्म बंद किया गया।", invalidTime: "एक मान्य अलार्म समय चुनें।", invalidDate: "आज या उसके बाद की तारीख चुनें।",
+    alarmOn: "अलार्म चालू किया गया।", alarmOff: "अलार्म बंद किया गया।", invalidTime: "एक मान्य अलार्म समय चुनें।", invalidDate: "भविष्य की तारीख और समय चुनें।",
     chooseWeekday: "दोहराए जाने वाले अलार्म के लिए कम से कम एक दिन चुनें।", couldNotSave: "अलार्म सहेजा नहीं जा सका। स्टोरेज देखें और फिर कोशिश करें।",
-    nativeSyncError: "Android अलार्म शेड्यूल नहीं कर सका। सेटिंग में अलार्म एक्सेस देखें।", permissionError: "अनुमति सेटिंग नहीं खुल सकी। Android सेटिंग देखें।",
+    nativeSyncError: "Android अलार्म शेड्यूल की पुष्टि नहीं कर सका। यह ऐप में सहेजा है; सेटिंग में अलार्म अनुमति देखें।",
+    nativePermissionWarning: "अलार्म शेड्यूल हुआ, लेकिन Android की कुछ अनुमतियाँ उपलब्ध नहीं हैं। सेटिंग देखें; समय या अलार्म प्रदर्शन प्रभावित हो सकता है।",
+    permissionError: "अनुमति सेटिंग नहीं खुल सकी। Android सेटिंग देखें।",
     ringtoneError: "Android साउंड पिकर नहीं खुल सका।", ringtoneUnavailable: "यह ध्वनि उपलब्ध नहीं है। दूसरी Android अलार्म ध्वनि चुनें।", previewUnavailable: "ध्वनि पूर्वावलोकन Android साउंड पिकर में उपलब्ध है।",
     alarmNotificationTitle: "दब्बाग अलार्म", alarmNotificationBody: "{label} · {time}",
     notificationGranted: "सूचनाएँ चालू हैं।", alarmSnoozed: "अलार्म {minutes} मिनट के लिए स्नूज़ किया गया।", alarmDismissed: "अलार्म बंद किया गया।",
@@ -210,6 +222,15 @@ state.alarms = loadAlarms();
 function t(key, values = {}) {
   const dictionary = messages[state.settings?.language] || messages.en;
   return (dictionary[key] || messages.en[key] || key).replace(/\{(\w+)\}/g, (_, name) => String(values[name] ?? ""));
+}
+
+function announceAlarmChange(successKey) {
+  const hasScheduledAlarms = state.monitoring && state.alarms.some((alarm) => alarm.enabled);
+  const permissionsMissing = state.native && hasScheduledAlarms && state.permissionStatus
+    && (!state.permissionStatus.exactAlarmAllowed
+      || !state.permissionStatus.notificationsAllowed
+      || !state.permissionStatus.fullScreenAllowed);
+  announce(t(permissionsMissing ? "nativePermissionWarning" : successKey));
 }
 
 function readStorage(key, fallback = null) {
@@ -263,6 +284,7 @@ function loadSettings() {
   catch (error) { console.error("Could not load app settings:", error); }
   return {
     language: ["en", "ur", "ar", "hi"].includes(saved.language) ? saved.language : "en",
+    theme: ["system", "light", "dark"].includes(saved.theme) ? saved.theme : "system",
     timeFormat: ["system", "12", "24"].includes(saved.timeFormat) ? saved.timeFormat : "system",
     defaultSnooze: SNOOZE_OPTIONS.includes(saved.defaultSnooze) ? saved.defaultSnooze : 5,
     defaultVolume: Number.isFinite(saved.defaultVolume) ? Math.max(0, Math.min(100, saved.defaultVolume)) : 75,
@@ -277,6 +299,7 @@ function saveSettings() {
   try {
     persistSettings();
     applyLanguage();
+    applyTheme();
     renderClock();
     renderCalendar();
     renderAlarms();
@@ -297,7 +320,6 @@ function persistSettings() {
 function saveAlarms() {
   try {
     localStorage.setItem(ALARMS_KEY, JSON.stringify(state.alarms));
-    syncNativeAlarms();
     return true;
   } catch (error) {
     console.error("Could not save alarms:", error);
@@ -349,6 +371,7 @@ function applyLanguage() {
   $$("[data-i18n-aria]").forEach((node) => { node.setAttribute("aria-label", t(node.dataset.i18nAria)); });
   $("#language-select").value = language;
   $("#settings-language").value = language;
+  $("#theme-select").value = state.settings.theme;
   $("#time-format").value = state.settings.timeFormat;
   $("#default-snooze").value = String(state.settings.defaultSnooze);
   $("#default-volume").value = String(state.settings.defaultVolume);
@@ -373,6 +396,13 @@ function applyLanguage() {
     option.textContent = `${option.value} ${t("minutesShort")}`;
   });
   renderWeekdayPicker();
+}
+
+function applyTheme() {
+  const dark = state.settings.theme === "dark"
+    || (state.settings.theme === "system" && window.matchMedia?.("(prefers-color-scheme: dark)").matches);
+  document.documentElement.dataset.theme = dark ? "dark" : "light";
+  document.querySelector('meta[name="theme-color"]').content = dark ? "#101b16" : "#102820";
 }
 
 function hijriParts(date) {
@@ -608,9 +638,11 @@ function renderAlarms() {
     toggle.type = "checkbox";
     toggle.checked = alarm.enabled;
     toggle.setAttribute("aria-label", `${alarm.enabled ? t("alarmOff") : t("alarmOn")} ${formatTime(alarm.time)}`);
-    toggle.addEventListener("change", () => {
-      updateAlarm(alarm.id, (item) => ({ ...item, enabled: toggle.checked }));
-      announce(t(toggle.checked ? "alarmOn" : "alarmOff"));
+    toggle.addEventListener("change", async () => {
+      const enabled = toggle.checked;
+      if (await updateAlarm(alarm.id, (item) => ({ ...item, enabled }))) {
+        announceAlarmChange(enabled ? "alarmOn" : "alarmOff");
+      }
     });
     const track = document.createElement("span");
     track.className = "switch-track";
@@ -626,9 +658,9 @@ function renderAlarms() {
     remove.className = "small-action is-danger";
     remove.setAttribute("aria-label", t("delete"));
     remove.innerHTML = '<svg class="icon" aria-hidden="true"><use href="#icon-trash"/></svg>';
-    remove.addEventListener("click", () => {
+    remove.addEventListener("click", async () => {
       if (!window.confirm(t("alarmDeletedConfirm"))) return;
-      deleteAlarm(alarm.id);
+      await deleteAlarm(alarm.id);
     });
     actions.append(toggleLabel, edit, remove);
     row.append(main, summary, actions);
@@ -816,6 +848,10 @@ async function requestPermissions() {
     if (state.native) {
       state.permissionStatus = await state.native.requestPermissions();
       renderPermissionStatus();
+      const permissionsMissing = !state.permissionStatus.exactAlarmAllowed
+        || !state.permissionStatus.notificationsAllowed
+        || !state.permissionStatus.fullScreenAllowed;
+      if (permissionsMissing) announce(t("nativePermissionWarning"));
     } else if ("Notification" in window) {
       if (Notification.permission === "default") {
         const result = await Notification.requestPermission();
@@ -838,29 +874,57 @@ async function requestPermissions() {
 }
 
 function syncNativeAlarms() {
-  if (!state.native) return;
-  state.native.setAlarms({ alarms: state.alarms, monitoring: state.monitoring }).then(() => state.native.getStatus())
-    .then((status) => {
-      state.permissionStatus = status;
-      renderPermissionStatus();
-    }).catch((error) => {
-      console.error("Native alarm schedule sync failed:", error);
-      announce(t("nativeSyncError"));
-    });
+  if (!state.native) return Promise.resolve(true);
+  return state.native.setAlarms({ alarms: state.alarms, monitoring: state.monitoring }).then(async (result) => {
+    const expectedCount = state.monitoring ? state.alarms.filter((alarm) => alarm.enabled).length : 0;
+    if (result.scheduledCount !== expectedCount) {
+      throw new Error(`Android scheduled ${result.scheduledCount} of ${expectedCount} enabled alarms.`);
+    }
+    state.permissionStatus = await state.native.getStatus();
+    renderPermissionStatus();
+    return true;
+  }).catch((error) => {
+    console.error("Native alarm schedule sync failed:", error);
+    announce(t("nativeSyncError"));
+    return false;
+  });
 }
 
-function updateAlarm(id, transform) {
+async function updateAlarm(id, transform) {
+  const previousAlarms = state.alarms;
   state.alarms = state.alarms.map((alarm) => alarm.id === id ? normalizeAlarm(transform(alarm)) : alarm);
-  if (saveAlarms()) renderAlarms();
+  if (!saveAlarms()) {
+    state.alarms = previousAlarms;
+    renderAlarms();
+    return false;
+  }
+  renderAlarms();
+  if (await syncNativeAlarms()) return true;
+  state.alarms = previousAlarms;
+  saveAlarms();
+  renderAlarms();
+  await syncNativeAlarms();
+  return false;
 }
 
-function deleteAlarm(id) {
-  if (state.ringingAlarm?.id === id) dismissAlarm();
+async function deleteAlarm(id) {
+  const previousAlarms = state.alarms;
   state.alarms = state.alarms.filter((alarm) => alarm.id !== id);
-  if (saveAlarms()) {
-    renderAlarms();
-    announce(t("alarmDeleted"));
+  if (!saveAlarms()) {
+    state.alarms = previousAlarms;
+    return false;
   }
+  renderAlarms();
+  if (!(await syncNativeAlarms())) {
+    state.alarms = previousAlarms;
+    saveAlarms();
+    renderAlarms();
+    await syncNativeAlarms();
+    return false;
+  }
+  if (state.ringingAlarm?.id === id) dismissAlarm();
+  announce(t("alarmDeleted"));
+  return true;
 }
 
 function renderMonitoring() {
@@ -869,17 +933,32 @@ function renderMonitoring() {
   $("#status-indicator").classList.toggle("is-paused", !state.monitoring);
 }
 
-function setMonitoring(enabled) {
+async function setMonitoring(enabled) {
+  const previousMonitoring = state.monitoring;
   state.monitoring = enabled;
   try { localStorage.setItem(MONITORING_KEY, String(enabled)); }
-  catch (error) { console.error("Could not persist monitoring state:", error); announce(t("couldNotSave")); }
+  catch (error) {
+    console.error("Could not persist monitoring state:", error);
+    state.monitoring = previousMonitoring;
+    renderMonitoring();
+    announce(t("couldNotSave"));
+    return;
+  }
   if (!enabled && state.ringingAlarm) dismissAlarm();
   renderMonitoring();
-  syncNativeAlarms();
-  announce(t(enabled ? "monitoringResumed" : "monitoringPaused"));
+  if (!(await syncNativeAlarms())) {
+    state.monitoring = previousMonitoring;
+    try { localStorage.setItem(MONITORING_KEY, String(previousMonitoring)); }
+    catch (error) { console.error("Could not restore monitoring state:", error); }
+    renderMonitoring();
+    await syncNativeAlarms();
+    return;
+  }
+  announceAlarmChange(enabled ? "monitoringResumed" : "monitoringPaused");
 }
 
 function checkWebAlarms(now) {
+  if (state.native) return;
   if (!state.monitoring || state.ringingAlarm) return;
   if (state.snoozeUntil && now.getTime() >= state.snoozeUntil.at) {
     const alarm = state.alarms.find((item) => item.id === state.snoozeUntil.alarmId);
@@ -1074,7 +1153,7 @@ function navigate(view) {
   if (view === "calendar") renderCalendar();
 }
 
-function submitAlarm(event) {
+async function submitAlarm(event) {
   event.preventDefault();
   const errorNode = $("#form-error");
   errorNode.hidden = true;
@@ -1086,6 +1165,7 @@ function submitAlarm(event) {
   const nowDate = localDateString(new Date());
   if (!/^\d{2}:\d{2}$/.test(time)) return showFormError(t("invalidTime"));
   if (repeat === "once" && date < nowDate) return showFormError(t("invalidDate"));
+  if (repeat === "once" && new Date(`${date}T${time}:00`) <= new Date()) return showFormError(t("invalidDate"));
   if (repeat === "weekdays" && weekdays.length === 0) return showFormError(t("chooseWeekday"));
 
   const existing = state.alarms.find((alarm) => alarm.id === id);
@@ -1110,8 +1190,12 @@ function submitAlarm(event) {
     : [...state.alarms, alarm];
   if (!saveAlarms()) return;
   renderAlarms();
+  if (!(await syncNativeAlarms())) {
+    showFormError(t("nativeSyncError"));
+    return;
+  }
   closeAlarmEditor();
-  announce(t(existing ? "alarmSaved" : "alarmCreated"));
+  announceAlarmChange(existing ? "alarmSaved" : "alarmCreated");
 }
 
 function showFormError(message) {
@@ -1129,6 +1213,7 @@ function setLanguage(language) {
     displayTime: formatTime(alarm.time),
   }));
   saveAlarms();
+  syncNativeAlarms();
   saveSettings();
 }
 
@@ -1173,10 +1258,19 @@ function bindEvents() {
     state.settings.timeFormat = event.target.value;
     state.alarms = state.alarms.map((alarm) => ({ ...alarm, displayTime: formatTime(alarm.time) }));
     saveAlarms();
+    syncNativeAlarms();
     saveSettings();
   });
   $("#language-select").addEventListener("change", (event) => setLanguage(event.target.value));
   $("#settings-language").addEventListener("change", (event) => setLanguage(event.target.value));
+  $("#theme-select").addEventListener("change", (event) => {
+    state.settings.theme = event.target.value;
+    saveSettings();
+  });
+  $("#quick-add-alarm").addEventListener("click", () => {
+    navigate("alarms");
+    openAlarmEditor();
+  });
   $("#monitoring-toggle").addEventListener("change", (event) => setMonitoring(event.target.checked));
   $("#request-permissions").addEventListener("click", requestPermissions);
   $("#pick-default-sound").addEventListener("click", () => pickRingtone("default"));
@@ -1214,6 +1308,7 @@ function bindEvents() {
 }
 
 applyLanguage();
+applyTheme();
 bindEvents();
 renderClock();
 renderAlarms();
@@ -1223,4 +1318,7 @@ renderMonitoring();
 renderPermissionStatus();
 navigate("home");
 connectNativeAlarms();
+window.matchMedia?.("(prefers-color-scheme: dark)")?.addEventListener?.("change", () => {
+  if (state.settings.theme === "system") applyTheme();
+});
 window.setInterval(renderClock, 1000);

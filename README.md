@@ -1,6 +1,6 @@
 # Dabbagh Alram
 
-A mobile-first alarm clock and estimated Hijri calendar built with plain HTML, CSS, and JavaScript, packaged with Capacitor 7. The interface includes English, Urdu, Arabic, and Hindi translations, with right-to-left layout for Urdu and Arabic.
+A mobile-first alarm clock and estimated Hijri calendar built with plain HTML, CSS, and JavaScript, packaged with Capacitor 7. The interface includes English, Urdu, Arabic, and Hindi translations, with right-to-left layout for Urdu and Arabic. Language and system/light/dark theme preferences persist on the device.
 
 ## Build the web app
 
@@ -29,7 +29,7 @@ The debug APK is written to `android/app/build/outputs/apk/debug/app-debug.apk`.
 
 Alarms support one-time dates, daily repeats, and selected weekdays. Each alarm stores its label, system alarm ringtone selection, player volume, vibration preference, and snooze duration. On Android, choose sounds through the system alarm sound picker; it provides its own preview. If a selected sound later becomes unavailable, the service logs the problem and attempts the system default alarm sound.
 
-Use **Enable alarm permissions** in Settings to request notification access, exact-alarm access where applicable, and full-screen intent access on supported Android versions. If exact-alarm access is unavailable, the scheduler falls back to an inexact alarm. Android battery management and manufacturer-specific background restrictions may still affect delivery. The app does not request battery-optimization exemption. Force-stopping the app prevents Android from starting its scheduled work until the app is opened again.
+Use **Enable alarm permissions** in Settings to request notification access, exact-alarm access where applicable, and full-screen intent access on supported Android versions. Alarm creation, enable/disable, and deletion are sent to the native plugin's `setAlarms` method, which updates the complete saved alarm list; the UI checks its scheduled-alarm count before confirming a change. A failed or partial schedule is reported rather than presented as a successful Android schedule. If exact-alarm access is unavailable, the scheduler falls back to an inexact alarm. Android battery management and manufacturer-specific background restrictions may still affect delivery. The app does not request battery-optimization exemption. Force-stopping the app prevents Android from starting its scheduled work until the app is opened again.
 
 ## Hijri calendar
 
